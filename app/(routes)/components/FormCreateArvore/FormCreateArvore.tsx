@@ -23,6 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import {UploadButton} from '@uploadthing/react';
+import {log} from 'console';
 
 const formSchema = z.object({
   nome: z.string(),
@@ -123,7 +125,18 @@ export function FormCreateArvore(props: FormCreateCustomerProps) {
                 <FormItem>
                   <FormLabel>Foto</FormLabel>
                   <FormControl>
-                    <Input placeholder="Upload" type="text" {...field} />
+                    {/* <Input placeholder="Upload" type="text" {...field} /> */}
+                    <UploadButton
+                      className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
+                      endpoint="profileImage"
+                      onClientUploadComplete={(res) => {
+                        form.setValue('profileImage', res?.[0].url);
+                        setPhotoUpload(true);
+                      }}
+                      onUploadError={(error: Error) => {
+                        console.log('Upload Error');
+                      }}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -131,7 +144,7 @@ export function FormCreateArvore(props: FormCreateCustomerProps) {
               )}
             />
           </div>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">Submeter</Button>
         </form>
       </Form>
     </div>

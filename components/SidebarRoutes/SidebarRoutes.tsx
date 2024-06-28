@@ -35,7 +35,7 @@ export function SidebarRoutes() {
       <div>
         <div className="text-center p-6">
           <Button variant="outline" className="w-full">
-            Página principal
+            Plataforma arvoredo - CM Arraiolos
           </Button>
         </div>
         <Separator />

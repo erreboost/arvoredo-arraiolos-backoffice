@@ -22,7 +22,7 @@ export const dataGeneralSidebar = [
   },
   {
     icon: Calendar,
-    label: 'Calendar',
+    label: 'Mapa de Adições',
     href: '/task',
   },
 ];
@@ -35,7 +35,7 @@ export const dataToolsSidebar = [
   },
   {
     icon: BarChart4,
-    label: 'Dados',
+    label: 'Estatísticas',
     href: '/dados',
   },
 ];
@@ -48,7 +48,7 @@ export const dataSupportSidebar = [
   },
   {
     icon: ShieldCheck,
-    label: 'Segurança',
+    label: 'Conta',
     href: '/seguranca',
   },
 ];
