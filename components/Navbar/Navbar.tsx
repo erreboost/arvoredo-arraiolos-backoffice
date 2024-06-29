@@ -1,6 +1,6 @@
 import {Input} from '@/components/ui/input';
 import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
-import {UserButton} from '@clerk/nextjs';
+// import {UserButton} from '@clerk/nextjs';
 import {Menu, Search} from 'lucide-react';
 import {SidebarRoutes} from '../SidebarRoutes';
 import {ToggleTheme} from '@/components/ToggleTheme';
@@ -24,7 +24,7 @@ export function Navbar() {
       </div>
       <div className="flex gap-x-2 items-center">
         <ToggleTheme />
-        <UserButton />
+        {/* <UserButton /> */}
       </div>
     </nav>
   );

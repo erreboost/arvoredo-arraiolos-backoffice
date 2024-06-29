@@ -23,6 +23,7 @@ export function HeaderArvores() {
           <Button>Adicionar Árvore</Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[625px]">
+          <DialogTitle>Dialog Title</DialogTitle>
           <DialogHeader>
             <DialogTitle>Adicionar</DialogTitle>
             <DialogDescription>Criar árvore</DialogDescription>

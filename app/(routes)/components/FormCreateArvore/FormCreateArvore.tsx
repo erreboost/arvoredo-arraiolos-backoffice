@@ -25,6 +25,7 @@ import {
 } from '@/components/ui/select';
 import {UploadButton} from '@uploadthing/react';
 import {log} from 'console';
+import {toast} from '@/components/ui/use-toast';
 
 const formSchema = z.object({
   nome: z.string(),
@@ -125,18 +126,30 @@ export function FormCreateArvore(props: FormCreateCustomerProps) {
                 <FormItem>
                   <FormLabel>Foto</FormLabel>
                   <FormControl>
-                    {/* <Input placeholder="Upload" type="text" {...field} /> */}
-                    <UploadButton
-                      className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
-                      endpoint="profileImage"
-                      onClientUploadComplete={(res) => {
-                        form.setValue('profileImage', res?.[0].url);
-                        setPhotoUpload(true);
-                      }}
-                      onUploadError={(error: Error) => {
-                        console.log('Upload Error');
-                      }}
-                    />
+                    {photoUpload ? (
+                      <p>Foto submetida</p>
+                    ) : (
+                      <UploadButton
+                        className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
+                        {...field}
+                        endpoint="profileImage"
+                        onClientUploadComplete={(res) => {
+                          form.setValue('profileImage', res?.[0].url);
+                          setPhotoUpload(true);
+                          toast({
+                            title: 'Imagem submetida com sucesso',
+                            description: 'Imagem carregada com sucesso',
+                          });
+                        }}
+                        onUploadError={(error: Error) => {
+                          toast({
+                            title: 'Erro ao submeter imagem',
+                            description: error.message,
+                          });
+                          console.log(error);
+                        }}
+                      />
+                    )}
                   </FormControl>
 
                   <FormMessage />
@@ -144,7 +157,9 @@ export function FormCreateArvore(props: FormCreateCustomerProps) {
               )}
             />
           </div>
-          <Button type="submit">Submeter</Button>
+          <Button type="submit" disabled={!isValid}>
+            Submeter
+          </Button>
         </form>
       </Form>
     </div>
