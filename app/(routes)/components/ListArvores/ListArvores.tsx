@@ -1,7 +1,8 @@
 'use client';
 import React, {useEffect, useState} from 'react';
-import {fetchTrees} from '@/app/api/arvores/route';
+
 import DataTable from './data-table';
+import {fetchTrees} from '@/app/api/arvores/fetchTrees';
 
 export const ListArvores = () => {
   const [trees, setTrees] = useState([]);
@@ -10,7 +11,7 @@ export const ListArvores = () => {
     const fetchData = async () => {
       try {
         const data = await fetchTrees();
-        setTrees(data?.trees || []); // Assuming 'trees' is the array in your response
+        setTrees(data?.trees || []);
       } catch (error) {
         console.error('Error fetching trees:', error);
       }
@@ -22,7 +23,7 @@ export const ListArvores = () => {
   return (
     <div>
       <h2>List of Trees</h2>
-      <DataTable trees={trees} /> {/* Pass fetched 'trees' data to DataTable */}
+      <DataTable trees={trees} />
     </div>
   );
 };

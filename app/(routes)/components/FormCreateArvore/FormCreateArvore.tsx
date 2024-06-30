@@ -126,12 +126,11 @@ export function FormCreateArvore(props: FormCreateCustomerProps) {
                 <FormItem>
                   <FormLabel>Foto</FormLabel>
                   <FormControl>
-                    {photoUpload ? (
+                    {/* {photoUpload ? (
                       <p>Foto submetida</p>
                     ) : (
                       <UploadButton
                         className="bg-slate-600/20 text-slate-800 rounded-lg outline-dotted outline-3"
-                        {...field}
                         endpoint="profileImage"
                         onClientUploadComplete={(res) => {
                           form.setValue('profileImage', res?.[0].url);
@@ -149,7 +148,7 @@ export function FormCreateArvore(props: FormCreateCustomerProps) {
                           console.log(error);
                         }}
                       />
-                    )}
+                    )} */}
                   </FormControl>
 
                   <FormMessage />

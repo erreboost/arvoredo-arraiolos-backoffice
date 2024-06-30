@@ -9,22 +9,35 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
+  TableHeader,
   TableRow,
 } from '@/components/ui/table';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import Link from 'next/link';
+import {Pencil} from 'lucide-react';
 
 interface Tree {
   _id: string;
   Data: string;
   Localizacao: string;
   Especie: string;
+  Nomecomum: string;
 }
 
 interface DataTableProps {
@@ -33,14 +46,72 @@ interface DataTableProps {
 
 const columns: ColumnDef<Tree>[] = [
   {
+    accessorKey: '_id',
+    header: 'ID',
+    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
+  },
+  {
     accessorKey: 'Especie',
     header: 'Espécie',
+    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
   },
   {
     accessorKey: 'Localizacao',
     header: 'Localização',
+    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
   },
-  // Add more columns as needed
+  {
+    accessorKey: 'Data',
+    header: 'Data',
+    // cell: (info) => {
+    //   const date = new Date(info.getValue() as string);
+    //   return (
+    //     <span className="text-left">{date.toLocaleDateString('pt-PT')}</span>
+    //   );
+    // },
+  },
+  {
+    accessorKey: 'Nomecomum',
+    header: 'Nome Comum',
+    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
+  },
+  {
+    id: 'actions',
+    enableHiding: false,
+    header: 'Ações',
+    cell: ({row}) => {
+      const {id} = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="w-8 h-8 p-0">
+              <Pencil className="w-4 h-4 mr-2" />
+              <span className="sr-only">Open menu</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <div className="flex items-center">
+                  <span className="ml-2">Editar</span>
+                </div>
+              </DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>
+                    <Link href={`/arvores/${id}`}>
+                      <Pencil className="w-4 h-4 mr-2" />
+                      <span>Editar</span>
+                    </Link>
+                  </DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
 
 const DataTable = ({trees}: DataTableProps) => {
@@ -73,33 +144,33 @@ const DataTable = ({trees}: DataTableProps) => {
 
   return (
     <div className="p-4 bg-background shadow-md rounded-lg mt-4">
-      <div className="flex items-center">
+      <div className="flex items-center mb-2">
         <Input
-          placeholder="Filtrar Árvores..."
+          placeholder="Filtrar por Espécie..."
           value={table.getColumn('Especie')?.getFilterValue() ?? ''}
           onChange={(event) =>
             table.getColumn('Especie')?.setFilterValue(event.target.value)
           }
         />
       </div>
-      <div className="rounded-md border">
+      <div className="rounded-md border overflow-x-auto">
         <Table>
-          <TableHead>
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
-                  <TableCell key={header.id}>
+                  <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                  </TableCell>
+                  </TableHead>
                 ))}
               </TableRow>
             ))}
-          </TableHead>
+          </TableHeader>
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
@@ -120,7 +191,7 @@ const DataTable = ({trees}: DataTableProps) => {
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length} // Use the columns array length directly
+                  colSpan={columns.length}
                   className="h-24 text-center"
                 >
                   Nenhum resultado encontrado

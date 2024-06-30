@@ -1,11 +1,11 @@
 import {Button} from '@/components/ui/button';
-import {UserButton} from '@clerk/nextjs';
+// import {UserButton} from '@clerk/nextjs';
 import {CardSum} from './components/CardSum';
 import {BookOpenCheck, Trees, Waypoints} from 'lucide-react';
 import {LatestEdits} from './components/LatestEdits';
 import {Editors} from './components/Editors';
 
-export const dataCardsSum = [
+const dataCardsSum = [
   {
     icon: Trees,
     total: '10',
@@ -15,10 +15,10 @@ export const dataCardsSum = [
   },
   {
     icon: Waypoints,
-    total: '10',
-    average: 13,
-    title: 'Caminhos criados',
-    tooltipText: 'Ver todos os caminhos criados',
+    total: '7',
+    average: 9,
+    title: 'PI criados',
+    tooltipText: 'Ver todos os pontos de interesse criados',
   },
   {
     icon: BookOpenCheck,
