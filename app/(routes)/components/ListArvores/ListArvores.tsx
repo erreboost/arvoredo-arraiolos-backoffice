@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {fetchTrees} from '@/app/api/arvores/route';
 import DataTable from './data-table';
 
-const ListArvores = () => {
+export const ListArvores = () => {
   const [trees, setTrees] = useState([]);
 
   useEffect(() => {
