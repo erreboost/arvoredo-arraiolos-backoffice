@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {
   ColumnDef,
+  ColumnFiltersState,
   SortingState,
   flexRender,
   getCoreRowModel,
@@ -80,7 +81,10 @@ const columns: ColumnDef<Tree>[] = [
     enableHiding: false,
     header: 'Ações',
     cell: ({row}) => {
-      const {id} = row.original;
+      const {_id} = row.original;
+      if (!_id) {
+        return null;
+      }
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -99,7 +103,7 @@ const columns: ColumnDef<Tree>[] = [
               <DropdownMenuPortal>
                 <DropdownMenuSubContent>
                   <DropdownMenuItem>
-                    <Link href={`/arvores/${id}`}>
+                    <Link href={`/arvores/${_id}`}>
                       <Pencil className="w-4 h-4 mr-2" />
                       <span>Editar</span>
                     </Link>
@@ -147,7 +151,7 @@ const DataTable = ({trees}: DataTableProps) => {
       <div className="flex items-center mb-2">
         <Input
           placeholder="Filtrar por Espécie..."
-          value={table.getColumn('Especie')?.getFilterValue() ?? ''}
+          value={(table.getColumn('Especie')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('Especie')?.setFilterValue(event.target.value)
           }

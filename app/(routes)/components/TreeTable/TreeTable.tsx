@@ -16,7 +16,6 @@ import {
 import {ArrowUpDown, ChevronDown, MoreHorizontal} from 'lucide-react';
 
 import {Button} from '@/components/ui/button';
-import {Checkbox} from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -36,41 +35,36 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-const data: Payment[] = [
+const data: Status[] = [
   {
     id: 'm5gr84i9',
     // amount: 316,
     estado: 'completado',
-    id: '3956239856292',
   },
   {
     id: '3u1reuv4',
     // amount: 242,
     estado: 'completado',
-    id: '39285692836792',
   },
   {
     id: 'derv1ws0',
     // amount: 837,
     estado: 'pendente',
-    id: '2223986932',
   },
   {
     id: '5kma53ae',
     // amount: 874,
-    estado: 'pendente',
-    id: '03827502375',
+    estado: 'cancelado',
   },
 ];
 
-export type Payment = {
+export type Status = {
   id: string;
   // amount: number;
-  estado: 'pending' | 'processing' | 'completado' | 'failed';
-  id: string;
+  estado: 'pendente' | 'completado' | 'cancelado';
 };
 
-export const columns: ColumnDef<Payment>[] = [
+export const columns: ColumnDef<Status>[] = [
   {
     id: 'select',
 
@@ -102,7 +96,7 @@ export const columns: ColumnDef<Payment>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({row}) => {
-      const payment = row.original;
+      const status = row.original;
 
       return (
         <DropdownMenu>
@@ -115,7 +109,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Ações</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
+              onClick={() => navigator.clipboard.writeText(status.id)}
             >
               Copiar ID
             </DropdownMenuItem>
