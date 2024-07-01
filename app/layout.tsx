@@ -1,12 +1,12 @@
 import type {Metadata} from 'next';
 import {Noto_Sans_Display} from 'next/font/google';
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from '@clerk/nextjs';
+// import {
+//   ClerkProvider,
+//   SignInButton,
+//   SignedIn,
+//   SignedOut,
+//   UserButton,
+// } from '@clerk/nextjs';
 import {ThemeProvider} from '@/components/theme-provider';
 import {Toaster} from '@/components/ui/toaster';
 
@@ -15,7 +15,7 @@ import './globals.css';
 const noto = Noto_Sans_Display({subsets: ['latin']});
 
 export const metadata: Metadata = {
-  title: 'Arvoredo',
+  title: 'Dashboard Arvoredo',
   description: 'Powered by Boost',
 };
 
