@@ -22,7 +22,6 @@ export const ListArvores = () => {
 
   return (
     <div>
-      <h2>List of Trees</h2>
       <DataTable trees={trees} />
     </div>
   );

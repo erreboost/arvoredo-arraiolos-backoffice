@@ -20,144 +20,54 @@ import {
 } from '@/components/ui/table';
 import {Input} from '@/components/ui/input';
 import {Button} from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuPortal,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import Link from 'next/link';
-import {Pencil} from 'lucide-react';
-
-interface Tree {
-  _id: string;
-  Data: string;
-  Localizacao: string;
-  Especie: string;
-  Nomecomum: string;
-}
+import {columns} from './columns';
+import {Tree} from './tree';
 
 interface DataTableProps {
   trees: Tree[];
 }
 
-const columns: ColumnDef<Tree>[] = [
-  {
-    accessorKey: '_id',
-    header: 'ID',
-    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
-  },
-  {
-    accessorKey: 'Especie',
-    header: 'Espécie',
-    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
-  },
-  {
-    accessorKey: 'Localizacao',
-    header: 'Localização',
-    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
-  },
-  {
-    accessorKey: 'Data',
-    header: 'Data',
-    // cell: (info) => {
-    //   const date = new Date(info.getValue() as string);
-    //   return (
-    //     <span className="text-left">{date.toLocaleDateString('pt-PT')}</span>
-    //   );
-    // },
-  },
-  {
-    accessorKey: 'Nomecomum',
-    header: 'Nome Comum',
-    // cell: (info) => <span className="text-left">{info.getValue()}</span>,
-  },
-  {
-    id: 'actions',
-    enableHiding: false,
-    header: 'Ações',
-    cell: ({row}) => {
-      const {_id} = row.original;
-      if (!_id) {
-        return null;
-      }
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="w-8 h-8 p-0">
-              <Pencil className="w-4 h-4 mr-2" />
-              <span className="sr-only">Open menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuSub>
-              <DropdownMenuSubTrigger>
-                <div className="flex items-center">
-                  <span className="ml-2">Editar</span>
-                </div>
-              </DropdownMenuSubTrigger>
-              <DropdownMenuPortal>
-                <DropdownMenuSubContent>
-                  <DropdownMenuItem>
-                    <Link href={`/arvores/${_id}`}>
-                      <Pencil className="w-4 h-4 mr-2" />
-                      <span>Editar</span>
-                    </Link>
-                  </DropdownMenuItem>
-                </DropdownMenuSubContent>
-              </DropdownMenuPortal>
-            </DropdownMenuSub>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
-];
-
-const DataTable = ({trees}: DataTableProps) => {
+const DataTable: React.FC<DataTableProps> = ({trees}) => {
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   useEffect(() => {
-    setIsMounted(true);
+    setIsLoaded(true);
   }, []);
 
   const table = useReactTable({
     data: trees,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
     state: {
       sorting,
       columnFilters,
+      globalFilter,
     },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    onGlobalFilterChange: setGlobalFilter,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   });
 
-  if (!isMounted) {
-    return null;
-  }
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
-    <div className="p-4 bg-background shadow-md rounded-lg mt-4">
+    <div className="p-4 mt-4 rounded-lg shadow-md bg-background">
       <div className="flex items-center mb-2">
         <Input
-          placeholder="Filtrar por Espécie..."
-          value={(table.getColumn('Especie')?.getFilterValue() as string) ?? ''}
-          onChange={(event) =>
-            table.getColumn('Especie')?.setFilterValue(event.target.value)
-          }
+          placeholder="Filtrar por espécie..."
+          value={globalFilter ?? ''}
+          onChange={(event) => setGlobalFilter(String(event.target.value))}
+          className="max-w-sm"
         />
       </div>
-      <div className="rounded-md border overflow-x-auto">
+
+      <div className="rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -176,7 +86,7 @@ const DataTable = ({trees}: DataTableProps) => {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows.length ? (
+            {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
@@ -198,7 +108,7 @@ const DataTable = ({trees}: DataTableProps) => {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Nenhum resultado encontrado
+                  Nenhum resultado.
                 </TableCell>
               </TableRow>
             )}
