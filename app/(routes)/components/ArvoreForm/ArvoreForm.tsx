@@ -19,6 +19,7 @@ import {Textarea} from '@/components/ui/textarea';
 import {formSchema} from './ArvoreForm.form';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
+import DragAndDrop from '../DragAndDrop/page';
 
 export function ArvoreForm({arvore}: ArvoreFormTypes) {
   const router = useRouter();
@@ -649,11 +650,12 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
                 <FormItem>
                   <FormLabel>Fotos</FormLabel>
                   <FormControl>
-                    <Input
+                    {/* <Input
                       placeholder="Introduza URLs separadas por vírgula"
                       type="text"
                       {...field}
-                    />
+                    /> */}
+                    <DragAndDrop />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
