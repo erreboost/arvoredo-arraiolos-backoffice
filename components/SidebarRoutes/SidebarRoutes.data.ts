@@ -7,6 +7,7 @@ import {
   CircleHelpIcon,
   Calendar,
   Shield,
+  CircleUser,
 } from 'lucide-react';
 
 export const dataGeneralSidebar = [
@@ -20,11 +21,11 @@ export const dataGeneralSidebar = [
     label: 'Árvores',
     href: '/arvores',
   },
-  {
-    icon: Calendar,
-    label: 'Mapa de Adições',
-    href: '/task',
-  },
+  // {
+  //   icon: Calendar,
+  //   label: 'Mapa de Adições',
+  //   href: '/task',
+  // },
 ];
 
 export const dataToolsSidebar = [
@@ -35,7 +36,7 @@ export const dataToolsSidebar = [
   },
   {
     icon: BarChart4,
-    label: 'Estatísticas',
+    label: 'Dados',
     href: '/dados',
   },
 ];
@@ -47,8 +48,8 @@ export const dataSupportSidebar = [
     href: '/opcoes',
   },
   {
-    icon: ShieldCheck,
+    icon: CircleUser,
     label: 'Conta',
-    href: '/seguranca',
+    href: '/conta',
   },
 ];

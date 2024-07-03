@@ -58,7 +58,7 @@ const DataTable: React.FC<DataTableProps> = ({trees}) => {
 
   return (
     <div className="p-4 mt-4 rounded-lg shadow-md bg-background">
-      <div className="flex items-center mb-2">
+      <div className="flex items-center mb-3">
         <Input
           placeholder="Procurar..."
           value={globalFilter ?? ''}
@@ -67,8 +67,8 @@ const DataTable: React.FC<DataTableProps> = ({trees}) => {
         />
       </div>
 
-      <div className="rounded-md border">
-        <Table>
+      <div className="rounded-md border overflow-x-auto ">
+        <Table className="min-w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -115,6 +115,8 @@ const DataTable: React.FC<DataTableProps> = ({trees}) => {
           </TableBody>
         </Table>
       </div>
+
+      {/* Buttons */}
       <div className="flex items-center justify-end space-x-2 py-4">
         <Button
           variant="outline"

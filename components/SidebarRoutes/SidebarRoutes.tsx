@@ -7,7 +7,12 @@ import {
   dataSupportSidebar,
   dataToolsSidebar,
 } from './SidebarRoutes.data';
+
 export function SidebarRoutes() {
+  const handleButtonClick = () => {
+    window.location.href = 'https://lrb-arvoredo-react.vercel.app/';
+  };
+
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
@@ -34,7 +39,11 @@ export function SidebarRoutes() {
       </div>
       <div>
         <div className="text-center p-6">
-          <Button variant="outline" className="w-full">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleButtonClick}
+          >
             Plataforma arvoredo - CM Arraiolos
           </Button>
         </div>
