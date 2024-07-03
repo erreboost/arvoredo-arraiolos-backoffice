@@ -12,6 +12,7 @@ import {CirclePlus} from 'lucide-react';
 import {useState} from 'react';
 import {FormCreateArvore} from '../FormCreateArvore';
 import {FormCreateCustomerProps} from '../FormCreateArvore/FormCreateArvore.types';
+import Link from 'next/link';
 
 export function HeaderArvores() {
   const [openModalCreate, setOpenModalCreate] = useState(false);
@@ -21,10 +22,14 @@ export function HeaderArvores() {
   };
 
   return (
-    <div className="flex justify-between items-center">
-      <h2 className="text-2xl">Lista de Árvores</h2>
+    <div className="flex justify-center items-center gap-x-6">
+      <h2 className="text-2xl">Lista das Árvores</h2>
 
-      <Dialog open={openModalCreate} onOpenChange={setOpenModalCreate}>
+      <Link href="/nova-arvore">
+        <Button>Adicionar Árvore</Button>
+      </Link>
+
+      {/* <Dialog open={openModalCreate} onOpenChange={setOpenModalCreate}>
         <DialogTrigger asChild>
           <Button>Adicionar Árvore</Button>
         </DialogTrigger>
@@ -36,7 +41,7 @@ export function HeaderArvores() {
 
           <FormCreateArvore {...formCreateArvoreProps} />
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </div>
   );
 }

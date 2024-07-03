@@ -38,7 +38,7 @@ export default async function ArvoreIdPage({
 
   return (
     <div>
-      <div>Header</div>
+      {/* <div>Header</div> */}
       <ArvoreInformation arvore={trees} />
       <div>Footer árvore</div>
     </div>
