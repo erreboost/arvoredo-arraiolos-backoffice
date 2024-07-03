@@ -27,52 +27,44 @@ import {
 } from '@/components/ui/dialog';
 import {Tree} from './tree';
 
-// interface Tree {
-//   _id: string;
-//   Data: string;
-//   Dicofre: string;
-//   Localizacao: string;
-//   Especie: string;
-//   Nomecomum: string;
-//   Estado_fit: string;
-//   Esdado_cal: string;
-//   Ava_Risco: string;
-//   Propo_Inte: string;
-//   Obser: string;
-//   GlobalID: string;
-//   raz_calssifica: string;
-//   agen_bioticos: string;
-//   Orgaos_afetados: string;
-//   Grau_de_desfolha: string;
-//   Sintomas_sinais_desfolhadores: string;
-//   Grau_de_descoloracao_da_copa: string;
-//   Deformacao_dos_tecidos: string;
-//   Alteracao_da_estrutura: string;
-//   Supressao_parcial_dos_orgaos: string;
-//   Orificios_perfuracoes: string;
-//   galerias: string;
-//   necroses: string;
-//   serrim: string;
-//   exsudacao: string;
-//   novelos_fibra: string;
-//   Forma_caldeira: string;
-//   Altura_v2: number;
-//   capv2: string;
-//   DAP_v2: number;
-//   idade_apro_v2: string;
-//   Especie_Val: number;
-//   Outro_Nome_Comum: string;
-//   Outra_Especie: string;
-//   Codigo: string;
-//   Outra_Tip_Int: string;
-//   grupos: string;
-//   POINT_X: string;
-//   POINT_Y: string;
-//   POINT_Z: string;
-//   Fotos: string[];
-//   createdAt: string;
-//   updatedAt: string;
-// }
+const PhotoDialog = ({photos}: {photos: string[]}) => {
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {photos.map((photo, index) => (
+        <Dialog key={index}>
+          <DialogTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() =>
+                setSelectedPhoto(`https://app.grupoerre.pt:5258/${photo}`)
+              }
+            >
+              <ImageIcon className="h-4 w-4 mr-1" />
+              Foto {index + 1}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Foto {index + 1}</DialogTitle>
+            </DialogHeader>
+            {selectedPhoto && (
+              <Image
+                src={selectedPhoto}
+                alt="Tree Photo"
+                width={600}
+                height={400}
+                className="mx-auto"
+              />
+            )}
+          </DialogContent>
+        </Dialog>
+      ))}
+    </div>
+  );
+};
 
 export const columns: ColumnDef<Tree>[] = [
   {
@@ -117,42 +109,7 @@ export const columns: ColumnDef<Tree>[] = [
     header: 'Fotos',
     cell: ({row}) => {
       const photos = row.getValue('Fotos') as string[];
-      const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
-
-      return (
-        <div className="flex flex-wrap gap-2">
-          {photos.map((photo, index) => (
-            <Dialog key={index}>
-              <DialogTrigger asChild>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    setSelectedPhoto(`https://app.grupoerre.pt:5258/${photo}`)
-                  }
-                >
-                  <ImageIcon className="h-4 w-4 mr-1" />
-                  Foto {index + 1}
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Foto {index + 1}</DialogTitle>
-                </DialogHeader>
-                {selectedPhoto && (
-                  <Image
-                    src={selectedPhoto}
-                    alt="Tree Photo"
-                    width={600}
-                    height={400}
-                    className="mx-auto"
-                  />
-                )}
-              </DialogContent>
-            </Dialog>
-          ))}
-        </div>
-      );
+      return <PhotoDialog photos={photos} />;
     },
   },
   {
@@ -160,7 +117,7 @@ export const columns: ColumnDef<Tree>[] = [
     header: 'Dicofre',
   },
   {
-    accessorKey: 'Estado_fir',
+    accessorKey: 'Estado_fit',
     header: 'Estado',
   },
   {

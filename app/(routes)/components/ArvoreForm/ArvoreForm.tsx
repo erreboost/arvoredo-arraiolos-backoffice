@@ -19,15 +19,6 @@ import {Textarea} from '@/components/ui/textarea';
 import {formSchema} from './ArvoreForm.form';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-} from '@chakra-ui/react';
 
 export function ArvoreForm({arvore}: ArvoreFormTypes) {
   const router = useRouter();

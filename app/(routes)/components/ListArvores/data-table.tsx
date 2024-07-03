@@ -60,7 +60,7 @@ const DataTable: React.FC<DataTableProps> = ({trees}) => {
     <div className="p-4 mt-4 rounded-lg shadow-md bg-background">
       <div className="flex items-center mb-2">
         <Input
-          placeholder="Filtrar por espécie..."
+          placeholder="Procurar..."
           value={globalFilter ?? ''}
           onChange={(event) => setGlobalFilter(String(event.target.value))}
           className="max-w-sm"

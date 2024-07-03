@@ -1,5 +1,6 @@
 import {redirect} from 'next/navigation';
 import {ArvoreInformation} from '../../components/ArvoreInformation';
+import {Tree} from '../../components/ListArvores/tree';
 // import { auth } from '@clerk/nextjs/server';
 
 export default async function ArvoreIdPage({
@@ -21,9 +22,11 @@ export default async function ArvoreIdPage({
 
   if (!arvore) {
     redirect('/');
+    return null;
   }
 
   const responseData = await arvore.json();
+  const tree: Tree = responseData.tree;
   //   console.log('Response from endpoint:', responseData);
 
   const {trees} = responseData;
