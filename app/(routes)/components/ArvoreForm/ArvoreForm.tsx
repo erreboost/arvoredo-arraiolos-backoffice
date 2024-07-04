@@ -645,7 +645,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="POINT_X"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>POINT X</FormLabel>
+                  <FormLabel>Coordenada X</FormLabel>
                   <FormControl>
                     <Input placeholder="Introduza..." type="text" {...field} />
                   </FormControl>
@@ -659,7 +659,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="POINT_Y"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>POINT Y</FormLabel>
+                  <FormLabel>Coordenada Y</FormLabel>
                   <FormControl>
                     <Input placeholder="Introduza..." type="text" {...field} />
                   </FormControl>
@@ -673,7 +673,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="POINT_Z"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>POINT Z</FormLabel>
+                  <FormLabel>Coordenada Z</FormLabel>
                   <FormControl>
                     <Input placeholder="Introduza..." type="text" {...field} />
                   </FormControl>
