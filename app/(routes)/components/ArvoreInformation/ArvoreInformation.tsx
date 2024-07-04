@@ -11,11 +11,11 @@ export function ArvoreInformation({arvore}: ArvoreInformationProps) {
     return <div>Error: Base URL is not defined</div>;
   }
 
-  console.log('Base URL:', baseUrl);
-  console.log('Fotos:', arvore.Fotos);
+  // console.log('Base URL:', baseUrl);
+  // console.log('Fotos:', arvore.Fotos);
 
-  const imageUrls = Array.isArray(arvore.Fotos)
-    ? arvore.Fotos.map((foto) => `${baseUrl}/${foto}`)
+  const imageUrls = Array.isArray(arvore?.Fotos)
+    ? arvore?.Fotos.map((foto) => `${baseUrl}/${foto}`)
     : [];
 
   return (
