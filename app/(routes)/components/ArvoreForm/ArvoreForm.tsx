@@ -18,13 +18,14 @@ import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import {formSchema} from './ArvoreForm.form';
 import {useRouter} from 'next/navigation';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import DragAndDrop from '../DragAndDrop/page';
 
 export function ArvoreForm({arvore}: ArvoreFormTypes) {
   const router = useRouter();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useState('');
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -44,11 +45,37 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
 
   const handleImageReplace = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      // Logic to replace the image goes here.
-      // For now, we just close the modal.
+      // Logic to replace the image
+
       setIsModalOpen(false);
     }
   };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('pt-PT', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    });
+  };
+
+  useEffect(() => {
+    const now = new Date();
+    setCurrentDate(
+      now.toLocaleString('pt-PT', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      })
+    );
+  }, []);
 
   return (
     <div>
@@ -62,7 +89,12 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
                 <FormItem>
                   <FormLabel>ID</FormLabel>
                   <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
+                    <Input
+                      placeholder="Introduza..."
+                      type="text"
+                      {...field}
+                      disabled
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -74,11 +106,13 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="Data"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>Data</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
+                  <div className="mt-10 ml-4">
+                    <FormLabel>Data: </FormLabel>
+                    <FormControl>
+                      <span>{currentDate}</span>
+                    </FormControl>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />
@@ -667,9 +701,13 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="createdAt"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>Data de Criação</FormLabel>
+                  <FormLabel>Data de Criação: </FormLabel>
                   <FormControl>
-                    <Input placeholder="Introduza..." type="date" {...field} />
+                    <span>
+                      {field.value
+                        ? formatDate(field.value)
+                        : 'Data não disponível'}
+                    </span>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -681,9 +719,13 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="updatedAt"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>Data de Atualização</FormLabel>
+                  <FormLabel>Data de Atualização: </FormLabel>
                   <FormControl>
-                    <Input placeholder="Introduza..." type="date" {...field} />
+                    <span>
+                      {field.value
+                        ? formatDate(field.value)
+                        : 'Data não disponível'}
+                    </span>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
