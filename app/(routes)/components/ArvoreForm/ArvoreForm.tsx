@@ -488,7 +488,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="Altura_v2"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>Altura v2</FormLabel>
+                  <FormLabel>Altura</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Introduza..."
@@ -506,7 +506,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="capv2"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>Cap v2</FormLabel>
+                  <FormLabel>Cap</FormLabel>
                   <FormControl>
                     <Input placeholder="Introduza..." type="text" {...field} />
                   </FormControl>
@@ -520,7 +520,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="DAP_v2"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>DAP v2</FormLabel>
+                  <FormLabel>DAP</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Introduza..."
@@ -538,7 +538,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
               name="idade_apro_v2"
               render={({field}) => (
                 <FormItem>
-                  <FormLabel>Idade Aproximada v2</FormLabel>
+                  <FormLabel>Idade Aproximada</FormLabel>
                   <FormControl>
                     <Input placeholder="Introduza..." type="text" {...field} />
                   </FormControl>
@@ -738,7 +738,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
             />
           </div>
 
-          <Button type="submit">Salvar</Button>
+          <Button type="submit">Gravar alterações</Button>
         </form>
       </Form>
     </div>

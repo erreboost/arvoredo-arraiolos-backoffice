@@ -29,24 +29,24 @@ export const dataGeneralSidebar = [
 ];
 
 export const dataToolsSidebar = [
-  {
-    icon: CircleHelpIcon,
-    label: 'Faqs',
-    href: '/faqs',
-  },
-  {
-    icon: BarChart4,
-    label: 'Dados',
-    href: '/dados',
-  },
+  // {
+  //   icon: CircleHelpIcon,
+  //   label: 'Faqs',
+  //   href: '/faqs',
+  // },
+  // {
+  //   icon: BarChart4,
+  //   label: 'Dados',
+  //   href: '/dados',
+  // },
 ];
 
 export const dataSupportSidebar = [
-  {
-    icon: Settings,
-    label: 'Opções',
-    href: '/opcoes',
-  },
+  // {
+  //   icon: Settings,
+  //   label: 'Opções',
+  //   href: '/opcoes',
+  // },
   {
     icon: CircleUser,
     label: 'Conta',

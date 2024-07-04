@@ -23,12 +23,12 @@ export function SidebarRoutes() {
           ))}
         </div>
         <Separator />
-        <div className="p-2 md:p-6">
+        {/* <div className="p-2 md:p-6">
           <p className="text-slate-500 mb-2">Ferramentas</p>
           {dataToolsSidebar.map((item) => (
             <SidebarItem key={item.label} item={item} />
           ))}
-        </div>
+        </div> */}
         <Separator />
         <div className="p-2 md:p-6">
           <p className="text-slate-500 mb-2">Suporte</p>
