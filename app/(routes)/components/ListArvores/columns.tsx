@@ -83,6 +83,10 @@ export const columns: ColumnDef<Tree>[] = [
     cell: ({row}) => <span>{row.original._id}</span>,
   },
   {
+    accessorKey: 'Codigo',
+    header: () => <div className="flex justify-center">Código</div>,
+  },
+  {
     accessorKey: 'Fotos',
     header: () => <div className="flex justify-center">Fotos</div>,
     cell: ({row}) => {
@@ -253,10 +257,7 @@ export const columns: ColumnDef<Tree>[] = [
     accessorKey: 'Outra_Especie',
     header: () => <div className="flex justify-center">Outra Especie</div>,
   },
-  {
-    accessorKey: 'Codigo',
-    header: () => <div className="flex justify-center">Código</div>,
-  },
+
   {
     accessorKey: 'Outra_Tip_Int',
     header: () => <div className="flex justify-center">Outra Tip Int</div>,

@@ -600,7 +600,12 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
                 <FormItem>
                   <FormLabel>Código</FormLabel>
                   <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
+                    <Input
+                      placeholder="Gerado Automaticamente"
+                      type="text"
+                      {...field}
+                      disabled
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
