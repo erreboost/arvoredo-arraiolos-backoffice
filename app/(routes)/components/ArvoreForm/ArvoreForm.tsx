@@ -45,7 +45,7 @@ export function ArvoreForm({arvore}: ArvoreFormTypes) {
 
   const handleImageReplace = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      // Logic to replace the image
+      // Replace image
 
       setIsModalOpen(false);
     }

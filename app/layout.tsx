@@ -1,14 +1,7 @@
 import type {Metadata} from 'next';
 import {Noto_Sans_Display} from 'next/font/google';
-// import {
-//   ClerkProvider,
-//   SignInButton,
-//   SignedIn,
-//   SignedOut,
-//   UserButton,
-// } from '@clerk/nextjs';
 import {ThemeProvider} from '@/components/theme-provider';
-import {Toaster} from '@/components/ui/toaster';
+import {Toaster} from 'react-hot-toast';
 
 import './globals.css';
 
@@ -25,7 +18,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // <ClerkProvider>
     <html lang="en" suppressHydrationWarning>
       <body className={noto.className}>
         <ThemeProvider
@@ -39,6 +31,41 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-    // </ClerkProvider>
   );
 }
+
+// import type { Metadata } from 'next';
+// import { Noto_Sans_Display } from 'next/font/google';
+// import { ThemeProvider } from '@/components/theme-provider';
+// import { Toaster } from 'react-hot-toast';
+// import ProtectedRoute from '@/components/ProtectedRoute';
+// import './globals.css';
+
+// const noto = Noto_Sans_Display({ subsets: ['latin'] });
+
+// export const metadata: Metadata = {
+//   title: 'Dashboard Arvoredo',
+//   description: 'Powered by Boost',
+// };
+
+// export default function RootLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>) {
+//   return (
+//     <html lang="en" suppressHydrationWarning>
+//       <body className={noto.className}>
+//         <ThemeProvider
+//           attribute="class"
+//           defaultTheme="system"
+//           enableSystem
+//           disableTransitionOnChange
+//         >
+//           <ProtectedRoute>{children}</ProtectedRoute>
+//           <Toaster />
+//         </ThemeProvider>
+//       </body>
+//     </html>
+//   );
+// }

@@ -1,5 +1,4 @@
 import {Button} from '@/components/ui/button';
-// import {UserButton} from '@clerk/nextjs';
 import {CardSum} from './components/CardSum';
 import {BookOpenCheck, Trees, Waypoints} from 'lucide-react';
 import {LatestEdits} from './components/LatestEdits';
