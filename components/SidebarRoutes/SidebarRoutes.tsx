@@ -1,23 +1,23 @@
-'use client';
-import {SidebarItem} from '../SidebarItem';
-import {Button} from '@/components/ui/button';
-import {Separator} from '@/components/ui/separator';
+'use client'
+import { SidebarItem } from '../SidebarItem'
+import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import {
   dataGeneralSidebar,
   dataSupportSidebar,
   dataToolsSidebar,
-} from './SidebarRoutes.data';
+} from './SidebarRoutes.data'
 
 export function SidebarRoutes() {
   const handleButtonClick = () => {
-    window.location.href = 'https://lrb-arvoredo-react.vercel.app/';
-  };
+    window.location.href = 'https://avoredo-v2.vercel.app/'
+  }
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="flex h-full flex-col justify-between">
       <div>
         <div className="p-2 md:p-6">
-          <p className="text-slate-500 mb-2">Geral</p>
+          <p className="mb-2 text-slate-500">Geral</p>
           {dataGeneralSidebar.map((item) => (
             <SidebarItem key={item.label} item={item} />
           ))}
@@ -31,14 +31,14 @@ export function SidebarRoutes() {
         </div> */}
         <Separator />
         <div className="p-2 md:p-6">
-          <p className="text-slate-500 mb-2">Suporte</p>
+          <p className="mb-2 text-slate-500">Suporte</p>
           {dataSupportSidebar.map((item) => (
             <SidebarItem key={item.label} item={item} />
           ))}
         </div>
       </div>
       <div>
-        <div className="text-center p-6">
+        <div className="p-6 text-center">
           <Button
             variant="outline"
             className="w-full"
@@ -54,5 +54,5 @@ export function SidebarRoutes() {
         </footer>
       </div>
     </div>
-  );
+  )
 }

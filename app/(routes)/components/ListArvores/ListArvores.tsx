@@ -1,32 +1,32 @@
-'use client';
-import React, {useEffect, useState} from 'react';
+'use client'
+import React, { useEffect, useState } from 'react'
 
-import DataTable from './data-table';
-import {fetchTrees} from '@/app/api/arvores/fetchTrees';
+import DataTable from './data-table'
+import { fetchTrees } from '@/app/api/arvores/fetchTrees'
 
-import {LoadingSpinner} from '@/components/ui/loading-spinner';
+import { LoadingSpinner } from '@/components/ui/loading-spinner'
 
 export const ListArvores = () => {
-  const [trees, setTrees] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [trees, setTrees] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchTrees();
-        setTrees(data?.trees || []);
+        const data = await fetchTrees()
+        setTrees(data?.trees || [])
       } catch (error) {
-        console.error('Error fetching trees:', error);
+        console.error('Error fetching trees:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchData();
-  }, []);
+    fetchData()
+  }, [])
 
   return (
-    <div className="relative flex items-center justify-center min-h-screen">
+    <div className="relative flex min-h-screen items-center justify-center">
       {loading ? (
         <LoadingSpinner />
       ) : (
@@ -35,7 +35,7 @@ export const ListArvores = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ListArvores;
+export default ListArvores

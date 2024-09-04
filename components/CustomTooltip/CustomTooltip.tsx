@@ -3,13 +3,13 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from '@/components/ui/tooltip'
 
-import {CustomTooltipProps} from './CustomTooltip.types';
-import {Info} from 'lucide-react';
+import { CustomTooltipProps } from './CustomTooltip.types'
+import { Info } from 'lucide-react'
 
 export function CustomTooltip(props: CustomTooltipProps) {
-  const {content} = props;
+  const { content } = props
   return (
     <TooltipProvider>
       <Tooltip>
@@ -21,5 +21,5 @@ export function CustomTooltip(props: CustomTooltipProps) {
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  );
+  )
 }

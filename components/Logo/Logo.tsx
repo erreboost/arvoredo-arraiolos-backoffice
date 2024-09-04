@@ -1,24 +1,24 @@
-'use client';
-import Image from 'next/image';
-import {useRouter} from 'next/navigation';
+'use client'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 export function Logo() {
-  const router = useRouter();
+  const router = useRouter()
 
   return (
     <div
-      className="min-h-20 h-20 flex items-center px-6 border-b cursor-pointer gap-2"
+      className="flex h-20 min-h-20 cursor-pointer items-center gap-2 border-b px-6"
       onClick={() => router.push('/')}
     >
-      <div className="relative w-16 h-16">
+      <div className="relative h-16 w-16">
         <Image
           src="/lrb_black.svg"
           alt="Logo"
           fill
-          style={{objectFit: 'contain'}}
+          style={{ objectFit: 'contain' }}
           priority
         />
       </div>
-      <h1 className="font-bold text-xl ml-4 ">Arvoredo</h1>
+      <h1 className="ml-4 text-xl font-bold">Arvoredo</h1>
     </div>
-  );
+  )
 }

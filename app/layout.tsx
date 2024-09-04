@@ -1,21 +1,23 @@
-import type {Metadata} from 'next';
-import {Noto_Sans_Display} from 'next/font/google';
-import {ThemeProvider} from '@/components/theme-provider';
-import {Toaster} from 'react-hot-toast';
+'use client'
+import type { Metadata } from 'next'
+import { Noto_Sans_Display } from 'next/font/google'
+import { ThemeProvider } from '@/components/theme-provider'
+import { Toaster } from 'react-hot-toast'
 
-import './globals.css';
+import './globals.css'
+import { AuthProvider } from './context/AuthContext'
 
-const noto = Noto_Sans_Display({subsets: ['latin']});
+const noto = Noto_Sans_Display({ subsets: ['latin'] })
 
-export const metadata: Metadata = {
-  title: 'Dashboard Arvoredo',
-  description: 'Powered by Boost',
-};
+// export const metadata: Metadata = {
+//   title: 'Dashboard Arvoredo',
+//   description: 'Powered by Boost',
+// };
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -31,7 +33,7 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
 
 // import type { Metadata } from 'next';

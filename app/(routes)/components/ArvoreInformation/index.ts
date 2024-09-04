@@ -1,1 +1,1 @@
-export * from './ArvoreInformation';
+export * from './ArvoreInformation'

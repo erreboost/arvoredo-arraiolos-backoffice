@@ -1,1 +1,1 @@
-export * from './CardSum';
+export * from './CardSum'

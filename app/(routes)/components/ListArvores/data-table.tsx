@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -9,7 +9,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
+} from '@tanstack/react-table'
 import {
   Table,
   TableBody,
@@ -17,25 +17,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import {Input} from '@/components/ui/input';
-import {Button} from '@/components/ui/button';
-import {columns} from './columns';
-import {Tree} from './tree';
+} from '@/components/ui/table'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { columns } from './columns'
+import { Tree } from './tree'
 
 interface DataTableProps {
-  trees: Tree[];
+  trees: Tree[]
 }
 
-const DataTable: React.FC<DataTableProps> = ({trees}) => {
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  const [globalFilter, setGlobalFilter] = useState('');
+const DataTable: React.FC<DataTableProps> = ({ trees }) => {
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [globalFilter, setGlobalFilter] = useState('')
 
   useEffect(() => {
-    setIsLoaded(true);
-  }, []);
+    setIsLoaded(true)
+  }, [])
 
   const table = useReactTable({
     data: trees,
@@ -52,13 +52,13 @@ const DataTable: React.FC<DataTableProps> = ({trees}) => {
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-  });
+  })
 
-  if (!isLoaded) return <div>Loading...</div>;
+  if (!isLoaded) return <div>Loading...</div>
 
   return (
-    <div className="p-4 mt-4 rounded-lg shadow-md bg-background">
-      <div className="flex items-center mb-3">
+    <div className="mt-4 rounded-lg bg-background p-4 shadow-md">
+      <div className="mb-3 flex items-center">
         <Input
           placeholder="Procurar..."
           value={globalFilter ?? ''}
@@ -67,7 +67,7 @@ const DataTable: React.FC<DataTableProps> = ({trees}) => {
         />
       </div>
 
-      <div className="rounded-md border overflow-x-auto ">
+      <div className="overflow-x-auto rounded-md border">
         <Table className="min-w-full">
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -136,7 +136,7 @@ const DataTable: React.FC<DataTableProps> = ({trees}) => {
         </Button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DataTable;
+export default DataTable

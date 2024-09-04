@@ -1,25 +1,25 @@
-import {CustomIcon} from '@/components/CustomIcon';
-import {CardSumProps} from './CardSum.types';
-import {CustomTooltip} from '@/components/CustomTooltip';
-import {cn} from '@/lib/utils';
-import {MoveDownRight, MoveUpRight, TrendingUp} from 'lucide-react';
+import { CustomIcon } from '@/components/CustomIcon'
+import { CardSumProps } from './CardSum.types'
+import { CustomTooltip } from '@/components/CustomTooltip'
+import { cn } from '@/lib/utils'
+import { MoveDownRight, MoveUpRight, TrendingUp } from 'lucide-react'
 
 export function CardSum(props: CardSumProps) {
-  const {icon: Icon, total, average, title, tooltipText} = props;
+  const { icon: Icon, total, average, title, tooltipText } = props
   return (
-    <div className="shadow-dm bg-background rounded-lg p-5 py-3 hover:shadow-lg transition">
+    <div className="shadow-dm rounded-lg bg-background p-5 py-3 transition hover:shadow-lg">
       <div className="flex justify-between">
-        <div className="flex gap-2 items-center">
+        <div className="flex items-center gap-2">
           <CustomIcon icon={Icon} />
           {title}
         </div>
         <CustomTooltip content={tooltipText} />
       </div>
-      <div className="flex gap-4 mt-2 md:mt-4">
+      <div className="mt-2 flex gap-4 md:mt-4">
         <p className="text-2xl">{total}</p>
         <div
           className={cn(
-            'flex items-center gap-1 px-2 text-xs text-white rounded-lg h-[20px] bg-black dark:bg-secondary'
+            'flex h-[20px] items-center gap-1 rounded-lg bg-black px-2 text-xs text-white dark:bg-secondary'
           )}
         >
           {average}%
@@ -35,5 +35,5 @@ export function CardSum(props: CardSumProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,5 +1,6 @@
-import {Tree} from '../ListArvores/tree';
+import { Tree } from '../ListArvores/tree'
 
 export type ArvoreFormTypes = {
-  arvore?: Partial<Tree>;
-};
+  arvore?: Partial<Tree>
+  type: 'edit' | 'create'
+}

@@ -1,5 +1,5 @@
-import {Tree} from '../ListArvores/tree';
+import { Tree } from '../ListArvores/tree'
 
 export type ArvoreInformationProps = {
-  arvore?: Partial<Tree>;
-};
+  arvore?: Partial<Tree>
+}

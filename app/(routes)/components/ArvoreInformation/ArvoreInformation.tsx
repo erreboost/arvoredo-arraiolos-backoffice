@@ -1,26 +1,27 @@
-import {User} from 'lucide-react';
-import {ArvoreInformationProps} from './ArvoreInformation.types';
-import Image from 'next/image';
-import {ArvoreForm} from '../ArvoreForm';
+'use client'
+import { User } from 'lucide-react'
+import { ArvoreInformationProps } from './ArvoreInformation.types'
+import Image from 'next/image'
+import { ArvoreForm } from '../ArvoreForm'
 
-export function ArvoreInformation({arvore}: ArvoreInformationProps) {
-  const baseUrl = process.env.BASE_URL;
+export function ArvoreInformation({ arvore }: ArvoreInformationProps) {
+  const baseUrl = process.env.BASE_URL
 
   if (!baseUrl) {
-    console.error('NEXT_PUBLIC_BASE_URL is not defined');
-    return <div>Error: Base URL is not defined</div>;
+    console.error('BASE_URL is not defined')
+    return <div>Error: Base URL is not defined</div>
   }
 
-  // console.log('Base URL:', baseUrl);
-  // console.log('Fotos:', arvore.Fotos);
+  // //console.log('Base URL:', baseUrl);
+  // //console.log('Fotos:', arvore.Fotos);
 
   const imageUrls = Array.isArray(arvore?.Fotos)
     ? arvore?.Fotos.map((foto) => `${baseUrl}/${foto}`)
-    : [];
+    : []
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-1 lg:gap-x-10 gap-y-4">
-      <div className="rounded-lg bg-background shadow-md hover:shadow-lg p-4">
+    <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-1 lg:gap-x-10">
+      <div className="rounded-lg bg-background p-4 shadow-md hover:shadow-lg">
         <div className="flex gap-4">
           {imageUrls.map((url, index) => (
             <div key={index} className="w-1/2">
@@ -29,13 +30,13 @@ export function ArvoreInformation({arvore}: ArvoreInformationProps) {
                 alt={`Foto Árvore ${index + 1}`}
                 width={200}
                 height={200}
-                className="rounded-lg mb-3"
-                style={{objectFit: 'cover'}}
+                className="mb-3 rounded-lg"
+                style={{ objectFit: 'cover' }}
               />
             </div>
           ))}
         </div>
-        <ArvoreForm arvore={arvore} />
+        <ArvoreForm arvore={arvore} type={'edit'} />
       </div>
       {/* <div className="rounded-lg bg-background shadow-md hover:shadow-lg p-4 h-min">
         <div className="flex items-center justify-between gap-x-2">
@@ -50,5 +51,5 @@ export function ArvoreInformation({arvore}: ArvoreInformationProps) {
         <p>Listar árvores...</p>
       </div> */}
     </div>
-  );
+  )
 }

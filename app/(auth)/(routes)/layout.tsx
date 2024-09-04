@@ -1,12 +1,16 @@
-import {Logo} from '@/components/Logo';
+import { Logo } from '@/components/Logo'
 
-export default function LayoutAuth({children}: {children: React.ReactNode}) {
+export default function LayoutAuth({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <div className="flex flex-col justify-center h-full items-center">
+    <div className="flex h-full flex-col items-center justify-center">
       <Logo />
-      <h1 className="text-3xl my-2">Dashboard</h1>
-      <h2 className="text-2xl mb-3">LRB</h2>
+      <h1 className="my-2 text-3xl">Dashboard</h1>
+      <h2 className="mb-3 text-2xl">LRB</h2>
       {children}
     </div>
-  );
+  )
 }

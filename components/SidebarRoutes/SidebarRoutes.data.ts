@@ -8,7 +8,7 @@ import {
   Calendar,
   Shield,
   CircleUser,
-} from 'lucide-react';
+} from 'lucide-react'
 
 export const dataGeneralSidebar = [
   {
@@ -26,7 +26,7 @@ export const dataGeneralSidebar = [
   //   label: 'Mapa de Adições',
   //   href: '/task',
   // },
-];
+]
 
 export const dataToolsSidebar = [
   // {
@@ -39,7 +39,7 @@ export const dataToolsSidebar = [
   //   label: 'Dados',
   //   href: '/dados',
   // },
-];
+]
 
 export const dataSupportSidebar = [
   // {
@@ -52,4 +52,4 @@ export const dataSupportSidebar = [
     label: 'Conta',
     href: '/conta',
   },
-];
+]

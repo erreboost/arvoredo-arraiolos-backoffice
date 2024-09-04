@@ -1,6 +1,5 @@
-'use client';
-
-import * as React from 'react';
+'use client'
+import * as React from 'react'
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,10 +11,10 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
-import {ArrowUpDown, ChevronDown, MoreHorizontal} from 'lucide-react';
+} from '@tanstack/react-table'
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react'
 
-import {Button} from '@/components/ui/button';
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -24,8 +23,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import {Input} from '@/components/ui/input';
+} from '@/components/ui/dropdown-menu'
+import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -33,107 +32,220 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '@/components/ui/table'
+import Link from 'next/link'
+import { editOccurrence } from '@/app/api/ocurrences'
 
-const data: Status[] = [
-  {
-    id: 'm5gr84i9',
-    // amount: 316,
-    estado: 'completado',
-  },
-  {
-    id: '3u1reuv4',
-    // amount: 242,
-    estado: 'completado',
-  },
-  {
-    id: 'derv1ws0',
-    // amount: 837,
-    estado: 'pendente',
-  },
-  {
-    id: '5kma53ae',
-    // amount: 874,
-    estado: 'cancelado',
-  },
-];
+export type Occurrence = {
+  _id: string
+  comments: string
+  email: string
+  name: string
+  status: string
+  xCoordinate: string
+  yCoordinate: string
+  treeId: string
+  createdAt: Date | string
+  updatedAt: Date | string
+}
 
-export type Status = {
-  id: string;
-  // amount: number;
-  estado: 'pendente' | 'completado' | 'cancelado';
-};
+export const formatStatus = (status: string) => {
+  return status === 'pending'
+    ? 'Pendente'
+    : status === 'canceled'
+      ? 'Cancelado'
+      : status === 'approved'
+        ? 'Resolvido'
+        : null
+}
 
-export const columns: ColumnDef<Status>[] = [
-  {
-    id: 'select',
+export const formatFilterKey = (filterKey: string) => {
+  return filterKey === 'treeId'
+    ? 'Árvore ID'
+    : filterKey === 'comments'
+      ? 'Comentários'
+      : filterKey === 'createdAt'
+        ? 'Data de Criação'
+        : filterKey === 'updatedAt'
+          ? 'Data de Atualização'
+          : filterKey
+}
 
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'estado',
-    header: 'Status',
-    cell: ({row}) => <div className="capitalize">{row.getValue('estado')}</div>,
-  },
-  {
-    accessorKey: 'id',
-    header: ({column}) => {
-      return (
+export function TreeTable({
+  allOccurrences,
+  setAllOccurrences,
+}: {
+  allOccurrences: Occurrence[]
+  setAllOccurrences: any
+}) {
+  const columns: ColumnDef<Occurrence>[] = [
+    {
+      id: 'select',
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => (
+        <div className="capitalize">{formatStatus(row.getValue('status'))}</div>
+      ),
+    },
+    {
+      accessorKey: 'treeId',
+      header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          id
+          Árvore Id
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      );
+      ),
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue('treeId')}</div>
+      ),
     },
-    cell: ({row}) => <div className="lowercase">{row.getValue('id')}</div>,
-  },
-
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({row}) => {
-      const status = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Abrir Menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Ações</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(status.id)}
-            >
-              Copiar ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Ver Árvore</DropdownMenuItem>
-            <DropdownMenuItem>Ver detalhes</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+    {
+      accessorKey: 'email',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Email
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue('email')}</div>
+      ),
     },
-  },
-];
+    {
+      accessorKey: 'comments',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Comments
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue('comments')}</div>
+      ),
+    },
+    {
+      accessorKey: 'createdAt',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Data de Criação
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center lowercase">
+          {new Date(row.getValue('createdAt')).toLocaleDateString()}
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'updatedAt',
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Data de Atualização
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center lowercase">
+          {new Date(row.getValue('updatedAt')).toLocaleDateString()}
+        </div>
+      ),
+    },
+    {
+      id: 'actions',
+      header: ({ column }) => <span>Ações</span>,
+      enableHiding: false,
+      cell: ({ row }) => {
+        const treeId = row.original
+        const fullObject = row.original
 
-export function TreeTable() {
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Abrir Menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuLabel>Ações</DropdownMenuLabel>
+              <DropdownMenuItem
+                className="hover:cursor-pointer"
+                onClick={() => navigator.clipboard.writeText(treeId.treeId)}
+              >
+                Copiar ID
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link href={`/arvore/${treeId.treeId}`}>Ver Árvore</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button
+                  variant={'destructive'}
+                  onClick={() => {
+                    editOccurrence(
+                      fullObject,
+                      'canceled',
+                      fullObject._id,
+                      setAllOccurrences
+                    )
+                  }}
+                >
+                  Cancelar Ocorrência
+                </Button>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <Button
+                  onClick={() =>
+                    editOccurrence(
+                      fullObject,
+                      'approved',
+                      fullObject._id,
+                      setAllOccurrences
+                    )
+                  }
+                >
+                  Resolver Ocorrência
+                </Button>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )
+      },
+    },
+  ]
+
+  const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  );
+  )
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
-  const [rowSelection, setRowSelection] = React.useState({});
+    React.useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = React.useState({})
+
+  const dataTable = React.useMemo(() => allOccurrences, [allOccurrences])
 
   const table = useReactTable({
-    data,
+    data: dataTable ?? [],
     columns,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -149,16 +261,24 @@ export function TreeTable() {
       columnVisibility,
       rowSelection,
     },
-  });
+  })
+
+  if (allOccurrences === undefined) {
+    return (
+      <div className="flex items-center justify-center">
+        <div className="loader"></div>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
           placeholder="Procurar..."
-          value={(table.getColumn('id')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn('_id')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('id')?.setFilterValue(event.target.value)
+            table.getColumn('_id')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -182,9 +302,9 @@ export function TreeTable() {
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    {formatFilterKey(column.id)}
                   </DropdownMenuCheckboxItem>
-                );
+                )
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -204,7 +324,7 @@ export function TreeTable() {
                             header.getContext()
                           )}
                     </TableHead>
-                  );
+                  )
                 })}
               </TableRow>
             ))}
@@ -240,10 +360,10 @@ export function TreeTable() {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} de{' '}
           {table.getFilteredRowModel().rows.length} fila(s) selecionada(s).
-        </div>
+        </div> */}
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -264,5 +384,5 @@ export function TreeTable() {
         </div>
       </div>
     </div>
-  );
+  )
 }

@@ -1,11 +1,11 @@
-import {Sheet, SheetContent, SheetTrigger} from '@/components/ui/sheet';
-import {Menu} from 'lucide-react';
-import {SidebarRoutes} from '../SidebarRoutes';
-import {ToggleTheme} from '@/components/ToggleTheme';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Menu } from 'lucide-react'
+import { SidebarRoutes } from '../SidebarRoutes'
+import { ToggleTheme } from '@/components/ToggleTheme'
 
 export function Navbar() {
   return (
-    <nav className="flex items-center px-2 gap-x-4 md:px-6 justify-between w-full bg-background border-b h-20">
+    <nav className="flex h-20 w-full items-center justify-between gap-x-4 border-b bg-background px-2 md:px-6">
       <div className="block xl:hidden">
         <Sheet>
           <SheetTrigger className="flex items-center">
@@ -17,9 +17,9 @@ export function Navbar() {
         </Sheet>
       </div>
       <div className="relative w-[300px]"></div>
-      <div className="flex gap-x-2 items-center">
+      <div className="flex items-center gap-x-2">
         <ToggleTheme />
       </div>
     </nav>
-  );
+  )
 }

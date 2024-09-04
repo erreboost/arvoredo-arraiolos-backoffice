@@ -1,8 +1,13 @@
-import {Button} from '@/components/ui/button';
-import {CardSum} from './components/CardSum';
-import {BookOpenCheck, Trees, Waypoints} from 'lucide-react';
-import {LatestEdits} from './components/LatestEdits';
-import {Editors} from './components/Editors';
+'use client'
+import { CardSum } from './components/CardSum'
+import { BookOpenCheck, Trees, Waypoints } from 'lucide-react'
+import { LatestEdits } from './components/LatestEdits'
+import { Editors } from './components/Editors'
+import { useOccurrences } from '../context/OccurrencesContext'
+import { useEffect } from 'react'
+import { getAllOccurrences } from '../api/ocurrences'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const dataCardsSum = [
   {
@@ -26,13 +31,15 @@ const dataCardsSum = [
     title: 'Edições',
     tooltipText: 'Ver todas as edições',
   },
-];
+]
 
 export default function Home() {
+  const { allOccurrences, setAllOccurrences } = useOccurrences()
+
   return (
     <div>
-      <h2 className="text-2xl mb-4">Dashboard</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20">
+      <h2 className="mb-4 text-2xl">Dashboard</h2>
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-x-20">
         {dataCardsSum.map(({icon, total, average, title, tooltipText}) => (
           <CardSum
             key={title}
@@ -43,11 +50,12 @@ export default function Home() {
             tooltipText={tooltipText}
           />
         ))}
-      </div>
-      <div className="grid grid-cols-1 xl:grid-cols-2 md:gap-x-10 mt-12">
+      </div> */}
+      <div className="mt-12 grid grid-cols-1 md:gap-x-10 xl:grid-cols-2">
         <LatestEdits />
         <Editors />
+        <ToastContainer />
       </div>
     </div>
-  );
+  )
 }

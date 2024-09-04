@@ -1,5 +1,5 @@
-import {Dispatch, SetStateAction} from 'react';
+import { Dispatch, SetStateAction } from 'react'
 
 export type FormCreateCustomerProps = {
-  setOpenModalCreate: Dispatch<SetStateAction<boolean>>;
-};
+  setOpenModalCreate: Dispatch<SetStateAction<boolean>>
+}

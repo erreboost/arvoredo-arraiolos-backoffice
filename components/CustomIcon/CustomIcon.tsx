@@ -1,10 +1,10 @@
-import {CustomIconProps} from './CustomIcon.types';
+import { CustomIconProps } from './CustomIcon.types'
 
 export function CustomIcon(props: CustomIconProps) {
-  const {icon: Icon} = props;
+  const { icon: Icon } = props
   return (
-    <div className="p-2 bg-slate-400/20 rounded-lg">
-      <Icon strokeWidth={1} className="w-4 h-4" />
+    <div className="rounded-lg bg-slate-400/20 p-2">
+      <Icon strokeWidth={1} className="h-4 w-4" />
     </div>
-  );
+  )
 }
