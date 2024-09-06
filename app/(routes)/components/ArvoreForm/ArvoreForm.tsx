@@ -1,9 +1,9 @@
-'use client'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { Button } from '@/components/ui/button'
-import { ArvoreFormTypes } from './ArvoreForm.types'
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { ArvoreFormTypes } from "./ArvoreForm.types";
 import {
   Form,
   FormControl,
@@ -12,29 +12,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { formSchema } from './ArvoreForm.form'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import DragAndDrop from '../DragAndDrop/page'
-import { Marker } from 'leaflet'
-import MapId from './Map'
-import { useAuths } from '@/app/context/AuthContext'
-import { createTree, updateTree } from '@/app/api/editors'
-import { fetchTrees } from '@/app/api/arvores/fetchTrees'
-import { Toast } from '@radix-ui/react-toast'
-import { ToastContainer } from 'react-toastify'
-import { create } from 'domain'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { formSchema } from "./ArvoreForm.form";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import DragAndDrop from "../DragAndDrop/page";
+import { Marker } from "leaflet";
+import MapId from "./Map";
+import { useAuths } from "@/app/context/AuthContext";
+import { createTree, updateTree } from "@/app/api/editors";
+import { fetchTrees } from "@/app/api/arvores/fetchTrees";
+import { Toast } from "@radix-ui/react-toast";
+import { ToastContainer } from "react-toastify";
+import { create } from "domain";
 
 export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
-  const router = useRouter()
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [currentDate, setCurrentDate] = useState('')
+  const router = useRouter();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentDate, setCurrentDate] = useState("");
 
-  const { setLatLong, latLong } = useAuths()
+  const { setLatLong, latLong } = useAuths();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,87 +42,87 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
     defaultValues: {
       ...arvore,
     },
-  })
+  });
 
   useEffect(() => {
-    if (type === 'create') {
+    if (type === "create") {
       // //console.log('MAP X Y', latLong)
-      form.setValue('POINT_X', String(latLong.latitude))
-      form.setValue('POINT_Y', String(latLong.longitude))
+      form.setValue("POINT_X", String(latLong.longitude));
+      form.setValue("POINT_Y", String(latLong.latitude));
     }
-  }, [latLong])
+  }, [latLong]);
 
   const onSubmitCreate = async (values: z.infer<typeof formSchema>) => {
     //console.log('Create', values)
-    createTree(values)
-  }
+    createTree(values);
+  };
 
   const onSubmitEdit = async (values: z.infer<typeof formSchema>) => {
-    updateTree(values, String(values._id))
+    updateTree(values, String(values._id));
     // //console.log('Edit', values);
-  }
+  };
 
   const handleImageClick = (url: string) => {
-    setSelectedImage(url)
-    setIsModalOpen(true)
-  }
+    setSelectedImage(url);
+    setIsModalOpen(true);
+  };
 
   const handleImageReplace = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       // Replace image
 
-      setIsModalOpen(false)
+      setIsModalOpen(false);
     }
-  }
+  };
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString)
-    return date.toLocaleString('pt-PT', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    })
-  }
+    const date = new Date(dateString);
+    return date.toLocaleString("pt-PT", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    });
+  };
 
   useEffect(() => {
-    const now = new Date()
+    const now = new Date();
     setCurrentDate(
-      now.toLocaleString('pt-PT', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      })
-    )
-  }, [])
+      now.toLocaleString("pt-PT", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
+    );
+  }, []);
 
   return (
     <div>
       <Form {...form}>
         <form
           onSubmit={
-            type === 'create'
+            type === "create"
               ? form.handleSubmit(onSubmitCreate)
               : form.handleSubmit(onSubmitEdit)
           }
           className="space-y-8"
         >
           <div>
-            {type === 'create' ? (
+            {type === "create" ? (
               <div className="w-full">
                 <MapId setLatLong={setLatLong} />
                 <div className="flex w-[40%] gap-[20px]">
                   <span className="font-semibold">
-                    Latitude:{' '}
-                    <span className="font-normal">{latLong.latitude}</span>
+                    Longitude:{" "}
+                    <span className="font-normal">{latLong.longitude}</span>
                   </span>
                   <span className="font-semibold">
-                    Latitude:{' '}
+                    Latitude:{" "}
                     <span className="font-normal">{latLong.latitude}</span>
                   </span>
                 </div>
@@ -757,7 +757,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                     <span>
                       {field.value
                         ? formatDate(field.value)
-                        : 'Data não disponível'}
+                        : "Data não disponível"}
                     </span>
                   </FormControl>
                   <FormMessage />
@@ -775,7 +775,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                     <span>
                       {field.value
                         ? formatDate(field.value)
-                        : 'Data não disponível'}
+                        : "Data não disponível"}
                     </span>
                   </FormControl>
                   <FormMessage />
@@ -787,5 +787,5 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
         </form>
       </Form>
     </div>
-  )
+  );
 }
