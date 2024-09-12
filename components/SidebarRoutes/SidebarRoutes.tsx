@@ -1,17 +1,13 @@
-'use client'
-import { SidebarItem } from '../SidebarItem'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
-import {
-  dataGeneralSidebar,
-  dataSupportSidebar,
-  dataToolsSidebar,
-} from './SidebarRoutes.data'
+"use client";
+import { SidebarItem } from "../SidebarItem";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { dataGeneralSidebar, dataSupportSidebar } from "./SidebarRoutes.data";
 
 export function SidebarRoutes() {
   const handleButtonClick = () => {
-    window.location.href = 'https://avoredo-v2.vercel.app/'
-  }
+    window.location.href = "https://avoredo-v2.vercel.app/";
+  };
 
   return (
     <div className="flex h-full flex-col justify-between">
@@ -44,7 +40,7 @@ export function SidebarRoutes() {
             className="w-full"
             onClick={handleButtonClick}
           >
-            Plataforma arvoredo - CM Arraiolos
+            Plataforma arvoredo - CM Bragança
           </Button>
         </div>
         <Separator />
@@ -54,5 +50,5 @@ export function SidebarRoutes() {
         </footer>
       </div>
     </div>
-  )
+  );
 }

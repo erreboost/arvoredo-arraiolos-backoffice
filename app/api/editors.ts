@@ -1,54 +1,53 @@
-import toast from 'react-hot-toast'
-import { fetchTrees } from './arvores/fetchTrees'
+import toast from "react-hot-toast";
 
-const BASE_URL = 'https://app.grupoerre.pt:5258'
+const BASE_URL = "https://lrb-app.grupoerre.pt:3010";
 // const BASE_URL='http://192.168.50.102:5258'
 
 export const getEditorsUsers = async (setEditors?: any) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/users/by-user-group/editor`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  })
+  });
 
-  const responseData = await response.json()
-  setEditors(responseData?.users)
+  const responseData = await response.json();
+  setEditors(responseData?.users);
   //console.log('Editors', responseData?.users)
-}
+};
 
 export const updateUserType = async (email: string, userType: string) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/auth/update-user-group/${email}`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       userGroup: userType,
     }),
-  })
+  });
 
-  const responseData = await response.json()
+  const responseData = await response.json();
   if (responseData) {
-    toast.success('Novo(a) editor(a) adicionado(a)')
+    toast.success("Novo(a) editor(a) adicionado(a)");
   }
 
   //console.log('Editors updated', responseData)
-}
+};
 
 export const createTree = async (tree: any) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/api/tree/create`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
@@ -93,53 +92,53 @@ export const createTree = async (tree: any) => {
       POINT_Y: tree.POINT_Y,
       POINT_Z: tree.POINT_Z,
     }),
-  })
+  });
 
-  const responseData = await response.json()
+  const responseData = await response.json();
   if (responseData) {
-    toast.success('Arvore criada com sucesso')
+    toast.success("Arvore criada com sucesso");
   }
 
   //console.log('Arvore criada com sucesso', responseData)
-}
+};
 
 export const updateTree = async (tree: any, id: string) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/api/tree/edit/${id}`, {
-    method: 'PATCH',
+    method: "PATCH",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
       tree: tree,
     }),
-  })
+  });
 
-  const responseData = await response.json()
+  const responseData = await response.json();
   if (responseData) {
-    toast.success('Arvore editada com sucesso')
+    toast.success("Arvore editada com sucesso");
   }
 
   //console.log('Arvore editada com sucesso', responseData)
-}
+};
 
 export const deleteTree = async (id: string) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/api/tree/delete/${id}`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  })
+  });
 
-  const responseData = await response.json()
+  const responseData = await response.json();
   if (responseData) {
-    toast.success('Arvore deletada com sucesso')
+    toast.success("Arvore deletada com sucesso");
   }
 
   //console.log('Arvore editada com sucesso', responseData)
-}
+};

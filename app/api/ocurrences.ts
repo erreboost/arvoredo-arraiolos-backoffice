@@ -1,21 +1,21 @@
-import { toast } from 'react-toastify'
+import { toast } from "react-toastify";
 
-const BASE_URL = 'https://app.grupoerre.pt:5258'
+const BASE_URL = "https://lrb-app.grupoerre.pt:3010";
 
 export const editOccurrence = async (
   occurrence: any,
   status: any,
   occurrenceId: string,
-  setAllOccurrences: any
+  setAllOccurrences: any,
 ) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(
     `${BASE_URL}/api/occurrences/edit/${occurrenceId}`,
     {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
@@ -25,25 +25,25 @@ export const editOccurrence = async (
         imgUrl: occurrence.imgUrl,
         status: status,
       }),
-    }
-  )
+    },
+  );
 
-  const responseData = await response.json()
-  if (responseData.message === 'Occurence successfully edited') {
-    toast.success('Ocorrência editada com sucesso')
+  const responseData = await response.json();
+  if (responseData.message === "Occurence successfully edited") {
+    toast.success("Ocorrência editada com sucesso");
   }
-  getAllOccurrences(setAllOccurrences)
+  getAllOccurrences(setAllOccurrences);
 
-  console.log('Editar ocurrence', responseData)
-}
+  console.log("Editar ocurrence", responseData);
+};
 
 export const createOccurrence = async (occurrence: any) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/api/occurrences/create-new`, {
-    method: 'DELETE',
+    method: "DELETE",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
@@ -53,32 +53,32 @@ export const createOccurrence = async (occurrence: any) => {
       imgUrl: occurrence.imgUrl,
       status: occurrence.status,
     }),
-  })
+  });
 
-  const responseData = await response.json()
+  const responseData = await response.json();
   // if(responseData){
   //   toast.success('Arvore deletada com sucesso')
   // }
 
-  console.log('Occurrence created', responseData)
-}
+  console.log("Occurrence created", responseData);
+};
 
 export const getAllOccurrences = async (setAllOccurrences: any) => {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/api/occurrences/get-all`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  })
+  });
 
-  const responseData = await response.json()
-  setAllOccurrences(responseData.occurences)
+  const responseData = await response.json();
+  setAllOccurrences(responseData.occurences);
   // if(responseData){
   //   toast.success('Arvore deletada com sucesso')
   // }
 
-  console.log('Occurrences fetched', responseData)
-}
+  console.log("Occurrences fetched", responseData);
+};
