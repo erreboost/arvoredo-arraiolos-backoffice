@@ -1,4 +1,6 @@
 export interface Tree {
+  POINT_Y_G: any;
+  POINT_X_G: any;
   _id: string;
   Data: string;
   Dicofre: string;

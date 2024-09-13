@@ -52,7 +52,7 @@ const response = await fetch(`${BASE_URL}/api/occurrences/create-new`, {
     // treeId: occurrence.treeId, 
     comments: occurrence.comments,
     status:occurrence.status,
-    imgUrl: `https://app.grupoerre.pt:5258/${imagePath}`
+    imgUrl: `https://lrb-app.grupoerre.pt:3011/${imagePath}`
     }),    
 })
 
