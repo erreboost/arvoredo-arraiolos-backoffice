@@ -1,21 +1,3 @@
 {
-  "/_not-found/page": "app/_not-found/page.js",
-  "/api/auth/signin/route": "app/api/auth/signin/route.js",
-  "/api/arvores/route": "app/api/arvores/route.js",
-  "/api/auth/signup/route": "app/api/auth/signup/route.js",
-  "/api/send-email/route": "app/api/send-email/route.js",
-  "/icon.ico/route": "app/icon.ico/route.js",
-  "/api/uploadthing/route": "app/api/uploadthing/route.js",
-  "/(routes)/components/DragAndDrop/page": "app/(routes)/components/DragAndDrop/page.js",
-  "/(auth)/(routes)/sign-up/[[...sign-up]]/page": "app/(auth)/(routes)/sign-up/[[...sign-up]]/page.js",
-  "/(auth)/(routes)/sign-in/[[...sign-in]]/page": "app/(auth)/(routes)/sign-in/[[...sign-in]]/page.js",
-  "/(routes)/arvores/page": "app/(routes)/arvores/page.js",
-  "/(routes)/arvores/[arvoreId]/page": "app/(routes)/arvores/[arvoreId]/page.js",
-  "/(routes)/conta/page": "app/(routes)/conta/page.js",
-  "/(routes)/dados/page": "app/(routes)/dados/page.js",
-  "/(routes)/faqs/page": "app/(routes)/faqs/page.js",
-  "/(routes)/opcoes/page": "app/(routes)/opcoes/page.js",
-  "/(routes)/nova-arvore/page": "app/(routes)/nova-arvore/page.js",
-  "/(routes)/page": "app/(routes)/page.js",
-  "/(routes)/task/page": "app/(routes)/task/page.js"
+  "/_not-found/page": "app/_not-found/page.js"
 }
