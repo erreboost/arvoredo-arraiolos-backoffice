@@ -1,0 +1,14 @@
+{
+  "app/(routes)/components/ArvoreForm/Map.tsx -> mapbox-gl": {
+    "id": 7719,
+    "files": [
+      "static/chunks/c36f3faa.3347c6b97aeb22d8.js"
+    ]
+  },
+  "node_modules/react-map-gl/dist/esm/exports-mapbox.js -> mapbox-gl": {
+    "id": 7719,
+    "files": [
+      "static/chunks/c36f3faa.3347c6b97aeb22d8.js"
+    ]
+  }
+}

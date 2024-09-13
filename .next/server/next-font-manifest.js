@@ -1,0 +1,1 @@
+self.__NEXT_FONT_MANIFEST='{"pages":{},"app":{"/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/app/layout":["static/media/9fcf81cb500267a1-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}';

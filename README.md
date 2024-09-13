@@ -1,1 +1,1 @@
-Plataforma Arvoredo
+Dashboard Arvoredo
