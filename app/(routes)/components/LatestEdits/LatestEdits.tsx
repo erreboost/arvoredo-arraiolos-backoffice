@@ -1,16 +1,16 @@
-'use client'
-import { CustomIcon } from '@/components/CustomIcon'
-import { Book, Building } from 'lucide-react'
-import { TreeTable } from '../TreeTable'
-import { useOccurrences } from '@/app/context/OccurrencesContext'
-import { useEffect } from 'react'
+"use client";
+import { CustomIcon } from "@/components/CustomIcon";
+import { Book, Building } from "lucide-react";
+import { TreeTable } from "../TreeTable";
+import { useOccurrences } from "@/app/context/OccurrencesContext";
+import { useEffect } from "react";
 
 export function LatestEdits() {
-  const { allOccurrences, setAllOccurrences } = useOccurrences()
+  const { allOccurrences, setAllOccurrences } = useOccurrences();
 
   useEffect(() => {
-    console.log('All occurrences', allOccurrences)
-  }, [allOccurrences])
+    // console.log('All occurrences', allOccurrences)
+  }, [allOccurrences]);
 
   return (
     <div className="rounded-lg bg-background p-5 shadow-sm">
@@ -25,5 +25,5 @@ export function LatestEdits() {
         />
       </div>
     </div>
-  )
+  );
 }

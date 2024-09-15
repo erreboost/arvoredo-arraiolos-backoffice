@@ -1,22 +1,22 @@
-'use client'
-import React, { useState } from 'react'
+"use client";
+import React, { useState } from "react";
 import {
   ArrowUpDown,
   MoreHorizontal,
   Pencil,
   Image as ImageIcon,
   Trash,
-} from 'lucide-react'
-import { ColumnDef } from '@tanstack/react-table'
-import { Button } from '@/components/ui/button'
+} from "lucide-react";
+import { ColumnDef } from "@tanstack/react-table";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import Link from 'next/link'
-import Image from 'next/image'
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import Image from "next/image";
 import {
   Dialog,
   DialogContent,
@@ -24,12 +24,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog'
-import { Tree } from './tree'
-import { useAuths } from '@/app/context/AuthContext'
+} from "@/components/ui/dialog";
+import { Tree } from "./tree";
+import { useAuths } from "@/app/context/AuthContext";
 
 const PhotoDialog = ({ photos }: { photos: string[] }) => {
-  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null)
+  const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -64,17 +64,17 @@ const PhotoDialog = ({ photos }: { photos: string[] }) => {
         </Dialog>
       ))}
     </div>
-  )
-}
+  );
+};
 
 const ActionsCell = ({ row }: any) => {
-  const { _id } = row.original
-  const { userType, setShowDeleteModal, setTreeToDeleteId } = useAuths()
+  const { _id } = row.original;
+  const { userType, setShowDeleteModal, setTreeToDeleteId } = useAuths();
 
   const openModalAndDelete = () => {
-    setShowDeleteModal(true)
-    setTreeToDeleteId(_id)
-  }
+    setShowDeleteModal(true);
+    setTreeToDeleteId(_id);
+  };
 
   return (
     <DropdownMenu>
@@ -91,7 +91,7 @@ const ActionsCell = ({ row }: any) => {
             Editar
           </DropdownMenuItem>
         </Link>
-        {userType?.userGroup === 'administrator' && (
+        {userType?.userGroup === "administrator" && (
           <DropdownMenuItem>
             <button onClick={() => openModalAndDelete()} className="flex">
               <Trash className="mr-2 flex h-4 w-4 items-center justify-center" />
@@ -101,22 +101,22 @@ const ActionsCell = ({ row }: any) => {
         )}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
 export const columns: ColumnDef<Tree>[] = [
   {
-    id: 'actions',
-    header: 'Ações',
+    id: "actions",
+    header: "Ações",
     cell: ActionsCell,
   },
   {
-    accessorKey: '_id',
+    accessorKey: "_id",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -126,12 +126,12 @@ export const columns: ColumnDef<Tree>[] = [
     cell: ({ row }) => <span>{row.original._id}</span>,
   },
   {
-    accessorKey: 'GlobalID',
+    accessorKey: "GlobalID",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Global ID
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -140,12 +140,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Codigo',
+    accessorKey: "Codigo",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Código
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -154,20 +154,20 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Fotos',
+    accessorKey: "Fotos",
     header: () => <div className="flex justify-center">Fotos</div>,
     cell: ({ row }) => {
-      const photos = row.getValue('Fotos') as string[]
-      return <PhotoDialog photos={photos} />
+      const photos = row.getValue("Fotos") as string[];
+      return <PhotoDialog photos={photos} />;
     },
   },
   {
-    accessorKey: 'Nomecomum',
+    accessorKey: "Nomecomum",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Nome Comum
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -176,12 +176,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Especie',
+    accessorKey: "Especie",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Espécie
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -190,12 +190,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Data',
+    accessorKey: "Data",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Data
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -203,17 +203,17 @@ export const columns: ColumnDef<Tree>[] = [
       </div>
     ),
     cell: ({ getValue }) => {
-      const date = new Date(getValue() as string)
-      return <span>{date.toLocaleDateString('pt-PT')}</span>
+      const date = new Date(getValue() as string);
+      return <span>{date.toLocaleDateString("pt-PT")}</span>;
     },
   },
   {
-    accessorKey: 'Dicofre',
+    accessorKey: "Dicofre",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Dicofre
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -222,12 +222,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Localizacao',
+    accessorKey: "Localizacao",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Localização
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -236,12 +236,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Estado_fit',
+    accessorKey: "Estado_fit",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Estado Fitossanitário
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -250,12 +250,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Esdado_cal',
+    accessorKey: "Esdado_cal",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Estado de Conservação
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -264,12 +264,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Ava_Risco',
+    accessorKey: "Ava_Risco",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Avaliação de Risco
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -278,12 +278,12 @@ export const columns: ColumnDef<Tree>[] = [
     ),
   },
   {
-    accessorKey: 'Propo_Inte',
+    accessorKey: "Propo_Inte",
     header: ({ column }) => (
       <div className="flex justify-center">
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Proposta de Intervenção
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -291,4 +291,4 @@ export const columns: ColumnDef<Tree>[] = [
       </div>
     ),
   },
-]
+];
