@@ -1,17 +1,17 @@
-'use client'
-import { SidebarItem } from '../SidebarItem'
-import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+"use client";
+import { SidebarItem } from "../SidebarItem";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   dataGeneralSidebar,
   dataSupportSidebar,
   dataToolsSidebar,
-} from './SidebarRoutes.data'
+} from "./SidebarRoutes.data";
 
 export function SidebarRoutes() {
   const handleButtonClick = () => {
-    window.location.href = 'https://avoredo-v2.vercel.app/'
-  }
+    window.location.href = "https://arvoredo-arraiolos-dashboard.vercel.app/";
+  };
 
   return (
     <div className="flex h-full flex-col justify-between">
@@ -54,5 +54,5 @@ export function SidebarRoutes() {
         </footer>
       </div>
     </div>
-  )
+  );
 }
