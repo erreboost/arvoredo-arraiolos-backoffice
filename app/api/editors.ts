@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
-import { fetchTrees } from "./arvores/fetchTrees";
 
-const BASE_URL = "https://lrb-app.grupoerre.pt:3011";
+const BASE_URL = "https://app.grupoerre.pt:5258";
 // const BASE_URL='http://192.168.50.102:5258'
 
 export const getEditorsUsers = async (setEditors?: any) => {
@@ -42,7 +41,7 @@ export const updateUserType = async (email: string, userType: string) => {
   //console.log('Editors updated', responseData)
 };
 
-export const createTree = async (tree: any) => {
+export const createTree = async (tree: any, X: any, Y: any) => {
   const token = localStorage.getItem("token");
 
   const response = await fetch(`${BASE_URL}/api/tree/create`, {
@@ -100,7 +99,7 @@ export const createTree = async (tree: any) => {
     toast.success("Arvore criada com sucesso");
   }
 
-  //console.log('Arvore criada com sucesso', responseData)
+  console.log("Arvore criada com sucesso", responseData);
 };
 
 export const updateTree = async (tree: any, id: string) => {

@@ -1,4 +1,5 @@
 "use client";
+import proj4 from "proj4";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -7,7 +8,6 @@ import { ArvoreFormTypes } from "./ArvoreForm.types";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,16 +17,49 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { formSchema } from "./ArvoreForm.form";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {
+  AwaitedReactNode,
+  JSXElementConstructor,
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useState,
+} from "react";
 import DragAndDrop from "../DragAndDrop/page";
-import { Marker } from "leaflet";
 import MapId from "./Map";
 import { useAuths } from "@/app/context/AuthContext";
 import { createTree, updateTree } from "@/app/api/editors";
-import { fetchTrees } from "@/app/api/arvores/fetchTrees";
-import { Toast } from "@radix-ui/react-toast";
-import { ToastContainer } from "react-toastify";
-import { create } from "domain";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  OPTIONS_AGEN_BIOTICOS,
+  OPTIONS_ALTERACAO_DA_ESTRUTURA,
+  OPTIONS_AVA_RISCO,
+  OPTIONS_DEFORMACAO_DOS_TECIDOS,
+  OPTIONS_ESTADO_CAL,
+  OPTIONS_ESTADO_FIT,
+  OPTIONS_EXUDACAO,
+  OPTIONS_FORMA_CALDEIRA,
+  OPTIONS_GALERIA,
+  OPTIONS_GRAU_DESCOLORACAO_COPA,
+  OPTIONS_GRAU_DESFOLHA,
+  OPTIONS_IDADE_APROV_V2,
+  OPTIONS_LOCALIZACAO,
+  OPTIONS_NECROSES,
+  OPTIONS_NOVELOS_FIBRA,
+  OPTIONS_ORGAOS_AFETADOS,
+  OPTIONS_ORIFICIOS_PERFURACOES,
+  OPTIONS_RAZ_CLASSIFICA,
+  OPTIONS_SERRIM,
+  OPTIONS_SINTOMAS_SINAIS_DESFOLHADORES,
+  OPTIONS_SUPRESSAO_PARCIAL_ORGAOS,
+} from "./optionsForm";
 
 export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   const router = useRouter();
@@ -34,7 +67,32 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
 
-  const { setLatLong, latLong } = useAuths();
+  const { setLatLong, latLong, setCoordinates, coordinates } = useAuths();
+
+  const wgs84 = "EPSG:4326";
+  const etrs89_tm06 = "EPSG:3763";
+  proj4.defs("EPSG:3763", "+proj=utm +zone=29 +datum=ETRS89 +units=m +no_defs");
+  // const latitude = 38.71667
+  // const longitude = -9.13333
+
+  const [x, y] = proj4(wgs84, etrs89_tm06, [
+    Number(latLong.longitude),
+    Number(latLong.latitude),
+  ]);
+
+  useEffect(() => {
+    if (latLong.latitude && latLong.longitude) {
+      const [x, y] = proj4(wgs84, etrs89_tm06, [
+        Number(latLong.longitude),
+        Number(latLong.latitude),
+      ]);
+
+      setCoordinates({ x, y });
+    }
+  }, [latLong, setCoordinates]);
+
+  // console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`)
+  console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,14 +105,14 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   useEffect(() => {
     if (type === "create") {
       // //console.log('MAP X Y', latLong)
-      form.setValue("POINT_X", String(latLong.longitude));
-      form.setValue("POINT_Y", String(latLong.latitude));
+      form.setValue("POINT_X", String(latLong.latitude));
+      form.setValue("POINT_Y", String(latLong.longitude));
     }
   }, [latLong]);
 
   const onSubmitCreate = async (values: z.infer<typeof formSchema>) => {
-    //console.log('Create', values)
-    createTree(values);
+    console.log("Create", coordinates.x, coordinates.y);
+    createTree(values, coordinates.x, coordinates.y);
   };
 
   const onSubmitEdit = async (values: z.infer<typeof formSchema>) => {
@@ -69,8 +127,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
 
   const handleImageReplace = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
-      // Replace image
-
       setIsModalOpen(false);
     }
   };
@@ -115,21 +171,44 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
           <div>
             {type === "create" ? (
               <div className="w-full">
+                {/* <ESRIMAP
+                  apiKey={
+                    'AAPK64cf373759a54865a9b553b5c82a36e12DR_FtikWVtRu-ClaIFkgrexK8Wc8HYxf2E5N-2slqZGEERxgga6uAqiUUTtR1bt=AAPK64cf373759a54865a9b553b5c82a36e12DR_FtikWVtRu-ClaIFkgrexK8Wc8HYxf2E5N-2slqZGEERxgga6uAqiUUTtR1bt'
+                  }
+                /> */}
                 <MapId setLatLong={setLatLong} />
                 <div className="flex w-[40%] gap-[20px]">
                   <span className="font-semibold">
-                    Longitude:{" "}
-                    <span className="font-normal">{latLong.longitude}</span>
-                  </span>
-                  <span className="font-semibold">
                     Latitude:{" "}
                     <span className="font-normal">{latLong.latitude}</span>
+                  </span>
+                  <span className="font-semibold">
+                    Longitude:{" "}
+                    <span className="font-normal">{latLong.longitude}</span>
                   </span>
                 </div>
               </div>
             ) : null}
           </div>
           <div className="grid grid-cols-2 gap-3">
+            {/* <FormField
+              control={form.control}
+              name="Codigo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Código</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Gerado Automaticamente"
+                      type="text"
+                      {...field}
+                      disabled
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
             <FormField
               control={form.control}
               name="_id"
@@ -164,7 +243,8 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             />
-            {/* <FormField
+            {/* 
+            <FormField
               control={form.control}
               name="Dicofre"
               render={({ field }) => (
@@ -177,17 +257,59 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             /> */}
+
             <FormField
               control={form.control}
               name="Localizacao"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Localização</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <FormLabel>Localizacao</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione a localizacao" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_LOCALIZACAO.map(
+                        (
+                          item:
+                            | string
+                            | number
+                            | bigint
+                            | boolean
+                            | ReactElement<
+                                any,
+                                string | JSXElementConstructor<any>
+                              >
+                            | Iterable<ReactNode>
+                            | Promise<AwaitedReactNode>
+                            | null
+                            | undefined,
+                          index: any,
+                        ) => (
+                          <SelectItem
+                            key={`${item}-${index}`}
+                            value={String(item)}
+                          >
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
+                // <FormItem>
+                //   <FormLabel>Localização</FormLabel>
+                //   <FormControl>
+                //     <Input placeholder="Introduza..." type="text" {...field} />
+                //   </FormControl>
+                //   <FormMessage />
+                // </FormItem>
               )}
             />
 
@@ -225,9 +347,43 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Estado Fitossanitário</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o estado fitossanitário" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_ESTADO_FIT.map(
+                        (
+                          item:
+                            | string
+                            | number
+                            | bigint
+                            | boolean
+                            | ReactElement<
+                                any,
+                                string | JSXElementConstructor<any>
+                              >
+                            | Iterable<ReactNode>
+                            | Promise<AwaitedReactNode>
+                            | null
+                            | undefined,
+                          index: any,
+                        ) => (
+                          <SelectItem
+                            key={`${item}-${index}`}
+                            value={String(item)}
+                          >
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -239,9 +395,43 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Estado da Caldeira</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o estado da caldeira" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_ESTADO_CAL.map(
+                        (
+                          item:
+                            | string
+                            | number
+                            | bigint
+                            | boolean
+                            | ReactElement<
+                                any,
+                                string | JSXElementConstructor<any>
+                              >
+                            | Iterable<ReactNode>
+                            | Promise<AwaitedReactNode>
+                            | null
+                            | undefined,
+                          index: any,
+                        ) => (
+                          <SelectItem
+                            key={`${item}-${index}`}
+                            value={String(item)}
+                          >
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -253,9 +443,23 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Avaliação de Risco</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o avaliação de risco" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_AVA_RISCO.map((item: string, index: number) => (
+                        <SelectItem key={`${item}-${index}`} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -291,7 +495,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="GlobalID"
               render={({ field }) => (
@@ -303,7 +507,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
@@ -311,9 +515,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Razão de Classificação</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione a razão de classificação" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_RAZ_CLASSIFICA.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -325,9 +545,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Agentes Bióticos</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione a agentes bióticos" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_AGEN_BIOTICOS.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -339,9 +575,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Órgãos Afetados</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione os órgãos afetados" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_ORGAOS_AFETADOS.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -353,23 +605,54 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Grau de Desfolha</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione os grau de desfolha" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_GRAU_DESFOLHA.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="Sintomas_sinais_desfolhadores"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Sintomas/Sinais de Desfolhadores</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione os sintomas/sinais de desfolhadores" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_SINTOMAS_SINAIS_DESFOLHADORES.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -381,9 +664,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Grau de Descoloração da Copa</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o grau de descoloração da copa" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_GRAU_DESCOLORACAO_COPA.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -395,23 +694,54 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Deformação dos Tecidos</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o grau de deformação dos tecidos" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_DEFORMACAO_DOS_TECIDOS.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="Alteracao_da_estrutura"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Alteração da Estrutura</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o grau de alteração da estrutura" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_ALTERACAO_DA_ESTRUTURA.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -423,9 +753,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Supressão Parcial dos Órgãos</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o grau supressão parcial dos Órgãos" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_SUPRESSAO_PARCIAL_ORGAOS.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -437,9 +783,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Orifícios/Perfurações</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione orifícios/perfurações" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_ORIFICIOS_PERFURACOES.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -451,9 +813,23 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Galerias</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione as galerias" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_GALERIA.map((item: string, index: number) => (
+                        <SelectItem key={`${item}-${index}`} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -465,9 +841,23 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Necroses</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione as necroses" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_NECROSES.map((item: string, index: number) => (
+                        <SelectItem key={`${item}-${index}`} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -479,9 +869,23 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Serrim</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione o serrim" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_SERRIM.map((item: string, index: number) => (
+                        <SelectItem key={`${item}-${index}`} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -493,9 +897,23 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Exsudação</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione a exsudação" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_EXUDACAO.map((item: string, index: number) => (
+                        <SelectItem key={`${item}-${index}`} value={item}>
+                          {item}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -507,9 +925,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Novelos de Fibra</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione os novelos de fibra" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_NOVELOS_FIBRA.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -521,9 +955,25 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Forma da Caldeira</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione os novelos de fibra" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_FORMA_CALDEIRA.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -546,21 +996,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="capv2"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cap</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="DAP_v2"
@@ -578,22 +1013,52 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             />
-
+            <FormField
+              control={form.control}
+              name="capv2"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>CAP</FormLabel>
+                  <p className="text-[13px]">
+                    {form.getValues("DAP_v2")
+                      ? Number(form.getValues("DAP_v2")) * 3.14
+                      : "Introduza um valor no DAP"}
+                  </p>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="idade_apro_v2"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Idade Aproximada</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione a idade aproximada" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {OPTIONS_IDADE_APROV_V2.map(
+                        (item: string, index: number) => (
+                          <SelectItem key={`${item}-${index}`} value={item}>
+                            {item}
+                          </SelectItem>
+                        ),
+                      )}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="Especie_Val"
               render={({ field }) => (
@@ -609,9 +1074,9 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="Outro_Nome_Comum"
               render={({ field }) => (
@@ -623,9 +1088,9 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="Outra_Especie"
               render={({ field }) => (
@@ -637,28 +1102,9 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
-            <FormField
-              control={form.control}
-              name="Codigo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Código</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Gerado Automaticamente"
-                      type="text"
-                      {...field}
-                      disabled
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
+            {/* <FormField
               control={form.control}
               name="Outra_Tip_Int"
               render={({ field }) => (
@@ -670,9 +1116,9 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="grupos"
               render={({ field }) => (
@@ -684,7 +1130,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
