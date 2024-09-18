@@ -92,7 +92,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   }, [latLong, setCoordinates]);
 
   // console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`)
-  console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`);
+  // console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -209,7 +209,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             /> */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="_id"
               render={({ field }) => (
@@ -226,7 +226,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}

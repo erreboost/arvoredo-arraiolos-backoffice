@@ -1,7 +1,6 @@
 import toast from "react-hot-toast";
 
-const BASE_URL = "https://app.grupoerre.pt:5258";
-// const BASE_URL='http://192.168.50.102:5258'
+const BASE_URL = process.env.BASE_URL;
 
 export const getEditorsUsers = async (setEditors?: any) => {
   const token = localStorage.getItem("token");
