@@ -1,1 +1,5 @@
-{}
+{
+  "/icon.ico/route": "app/icon.ico/route.js",
+  "/(routes)/page": "app/(routes)/page.js",
+  "/(routes)/arvores/page": "app/(routes)/arvores/page.js"
+}

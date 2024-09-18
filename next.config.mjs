@@ -3,15 +3,15 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'utfs.io',
-        pathname: '**',
+        protocol: "https",
+        hostname: "utfs.io",
+        pathname: "**",
       },
       {
-        protocol: 'https',
-        hostname: 'app.grupoerre.pt',
-        port: '5258',
-        pathname: '/uploads/trees/**',
+        protocol: "https",
+        hostname: "lrb-app.grupoerre.pt",
+        port: "3011",
+        pathname: "/uploads/trees/**",
       },
     ],
   },
@@ -19,18 +19,18 @@ const nextConfig = {
     return [
       {
         // matching all API routes
-        source: '/api/:path*',
+        source: "/api/:path*",
         headers: [
-          {key: 'Access-Control-Allow-Credentials', value: 'true'},
-          {key: 'Access-Control-Allow-Origin', value: '*'},
+          { key: "Access-Control-Allow-Credentials", value: "true" },
+          { key: "Access-Control-Allow-Origin", value: "*" },
           {
-            key: 'Access-Control-Allow-Methods',
-            value: 'GET,DELETE,PATCH,POST,PUT',
+            key: "Access-Control-Allow-Methods",
+            value: "GET,DELETE,PATCH,POST,PUT",
           },
           {
-            key: 'Access-Control-Allow-Headers',
+            key: "Access-Control-Allow-Headers",
             value:
-              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+              "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
           },
         ],
       },
