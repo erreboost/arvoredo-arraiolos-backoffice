@@ -110,35 +110,35 @@ export const columns: ColumnDef<Tree>[] = [
     header: "Ações",
     cell: ActionsCell,
   },
-  {
-    accessorKey: "_id",
-    header: ({ column }) => (
-      <div className="flex justify-center">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
-    cell: ({ row }) => <span>{row.original._id}</span>,
-  },
-  {
-    accessorKey: "GlobalID",
-    header: ({ column }) => (
-      <div className="flex justify-center">
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Global ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      </div>
-    ),
-  },
+  // {
+  //   accessorKey: "_id",
+  //   header: ({ column }) => (
+  //     <div className="flex justify-center">
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         ID
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     </div>
+  //   ),
+  //   cell: ({ row }) => <span>{row.original._id}</span>,
+  // },
+  // {
+  //   accessorKey: "GlobalID",
+  //   header: ({ column }) => (
+  //     <div className="flex justify-center">
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Global ID
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     </div>
+  //   ),
+  // },
   {
     accessorKey: "Codigo",
     header: ({ column }) => (
