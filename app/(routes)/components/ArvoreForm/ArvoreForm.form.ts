@@ -39,8 +39,12 @@ export const formSchema = z.object({
   Codigo: z.string().optional(),
   Outra_Tip_Int: z.string().optional(),
   grupos: z.string().optional(),
-  POINT_X_G: z.string(),
-  POINT_Y_G: z.string(),
+  POINT_X_G: z.string().refine((value) => value !== "0", {
+    message: "Coordenada X não pode ser 0",
+  }),
+  POINT_Y_G: z.string().refine((value) => value !== "0", {
+    message: "Coordenada Y não pode ser 0",
+  }),
   POINT_Z: z.string().optional(),
   Fotos: z.array(z.string()).optional(),
   createdAt: z.string().optional(),

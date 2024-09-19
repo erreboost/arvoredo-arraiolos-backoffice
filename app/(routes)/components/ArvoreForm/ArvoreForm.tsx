@@ -102,14 +102,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
     },
   });
 
-  const { watch } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    //@ts-ignore
-    defaultValues: {
-      ...arvore,
-    },
-  });
-
   useEffect(() => {
     if (type === "create") {
       // //console.log('MAP X Y', latLong)
@@ -960,7 +952,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             />
-
             <FormField
               control={form.control}
               name="Forma_caldeira"

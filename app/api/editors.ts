@@ -87,8 +87,8 @@ export const createTree = async (tree: any, X: any, Y: any) => {
       Codigo: tree.Codigo,
       Outra_Tip_Int: tree.Outra_Tip_Int,
       grupos: tree.grupos,
-      POINT_X: tree.POINT_X,
-      POINT_Y: tree.POINT_Y,
+      POINT_X_G: tree.POINT_X_G,
+      POINT_Y_G: tree.POINT_Y_G,
       POINT_Z: tree.POINT_Z,
     }),
   });
