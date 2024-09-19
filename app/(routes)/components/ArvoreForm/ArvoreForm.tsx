@@ -1033,7 +1033,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormLabel>CAP</FormLabel>
                   <p className="text-[13px]">
                     {Number(watchDap)
-                      ? (Number(watchDap) * 3.14).toFixed(3)
+                      ? (Number(watchDap) * 3.14).toFixed(2)
                       : "Introduza um valor no DAP"}
                   </p>
                   <FormMessage />
