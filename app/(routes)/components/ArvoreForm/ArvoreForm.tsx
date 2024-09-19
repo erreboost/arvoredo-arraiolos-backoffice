@@ -92,9 +92,17 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   }, [latLong, setCoordinates]);
 
   // console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`)
-  console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`);
+  // console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`);
 
   const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    //@ts-ignore
+    defaultValues: {
+      ...arvore,
+    },
+  });
+
+  const { watch } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     //@ts-ignore
     defaultValues: {
@@ -105,8 +113,8 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   useEffect(() => {
     if (type === "create") {
       // //console.log('MAP X Y', latLong)
-      form.setValue("POINT_X", String(latLong.latitude));
-      form.setValue("POINT_Y", String(latLong.longitude));
+      form.setValue("POINT_X_G", String(latLong.latitude));
+      form.setValue("POINT_Y_G", String(latLong.longitude));
     }
   }, [latLong]);
 
@@ -156,6 +164,10 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
       }),
     );
   }, []);
+
+  const [dapField, setDapField] = useState(form.watch("DAP_v2"));
+
+  let watchDap = form.watch("DAP_v2");
 
   return (
     <div>
@@ -209,7 +221,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             /> */}
-            <FormField
+            {/* <FormField
               control={form.control}
               name="_id"
               render={({ field }) => (
@@ -226,7 +238,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
@@ -1020,8 +1032,8 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 <FormItem>
                   <FormLabel>CAP</FormLabel>
                   <p className="text-[13px]">
-                    {form.getValues("DAP_v2")
-                      ? Number(form.getValues("DAP_v2")) * 3.14
+                    {Number(watchDap)
+                      ? Number(watchDap) * 3.14
                       : "Introduza um valor no DAP"}
                   </p>
                   <FormMessage />
@@ -1134,7 +1146,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
 
             <FormField
               control={form.control}
-              name="POINT_X"
+              name="POINT_X_G"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Coordenada X</FormLabel>
@@ -1148,7 +1160,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
 
             <FormField
               control={form.control}
-              name="POINT_Y"
+              name="POINT_Y_G"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Coordenada Y</FormLabel>

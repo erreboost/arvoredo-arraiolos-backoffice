@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 export const formSchema = z.object({
   _id: z.string().optional(),
@@ -39,10 +39,10 @@ export const formSchema = z.object({
   Codigo: z.string().optional(),
   Outra_Tip_Int: z.string().optional(),
   grupos: z.string().optional(),
-  POINT_X: z.string().optional(),
-  POINT_Y: z.string().optional(),
+  POINT_X_G: z.string(),
+  POINT_Y_G: z.string(),
   POINT_Z: z.string().optional(),
   Fotos: z.array(z.string()).optional(),
   createdAt: z.string().optional(),
   updatedAt: z.string().optional(),
-})
+});
