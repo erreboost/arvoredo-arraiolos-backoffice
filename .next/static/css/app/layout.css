@@ -1226,14 +1226,6 @@ video {
 .bg-white\/60 {
   background-color: rgb(255 255 255 / 0.6);
 }
-.bg-blue-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
-}
-.bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
-}
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1639,14 +1631,6 @@ mapboxgl-children {
 }
 .hover\:bg-slate-300\/20:hover {
   background-color: rgb(203 213 225 / 0.2);
-}
-.hover\:bg-blue-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-.hover\:bg-gray-400:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
 }
 .hover\:text-accent-foreground:hover {
   color: hsl(var(--accent-foreground));

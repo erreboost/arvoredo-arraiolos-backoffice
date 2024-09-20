@@ -1,5 +1,4 @@
 {
   "/(routes)/page": "app/(routes)/page.js",
-  "/(routes)/arvores/page": "app/(routes)/arvores/page.js",
   "/(routes)/nova-arvore/page": "app/(routes)/nova-arvore/page.js"
 }

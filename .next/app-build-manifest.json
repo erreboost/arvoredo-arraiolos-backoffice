@@ -17,6 +17,11 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/(routes)/conta/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(routes)/conta/page.js"
+    ],
     "/(routes)/arvores/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",

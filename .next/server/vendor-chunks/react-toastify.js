@@ -661,62 +661,6 @@ function Q(t) {
  //# sourceMappingURL=react-toastify.esm.mjs.map
 
 
-/***/ }),
-
-/***/ "(rsc)/./node_modules/react-toastify/dist/react-toastify.esm.mjs":
-/*!*****************************************************************!*\
-  !*** ./node_modules/react-toastify/dist/react-toastify.esm.mjs ***!
-  \*****************************************************************/
-/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   Bounce: () => (/* binding */ e0),
-/* harmony export */   Flip: () => (/* binding */ e1),
-/* harmony export */   Icons: () => (/* binding */ e2),
-/* harmony export */   Slide: () => (/* binding */ e3),
-/* harmony export */   ToastContainer: () => (/* binding */ e4),
-/* harmony export */   Zoom: () => (/* binding */ e5),
-/* harmony export */   collapseToast: () => (/* binding */ e6),
-/* harmony export */   cssTransition: () => (/* binding */ e7),
-/* harmony export */   toast: () => (/* binding */ e8),
-/* harmony export */   useToast: () => (/* binding */ e9),
-/* harmony export */   useToastContainer: () => (/* binding */ e10)
-/* harmony export */ });
-/* harmony import */ var next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! next/dist/build/webpack/loaders/next-flight-loader/module-proxy */ "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-loader/module-proxy.js");
-
-const proxy = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs`)
-
-// Accessing the __esModule property and exporting $$typeof are required here.
-// The __esModule getter forces the proxy target to create the default export
-// and the $$typeof value is for rendering logic to determine if the module
-// is a client boundary.
-const { __esModule, $$typeof } = proxy;
-const __default__ = proxy.default;
-
-const e0 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#Bounce`);
-
-const e1 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#Flip`);
-
-const e2 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#Icons`);
-
-const e3 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#Slide`);
-
-const e4 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#ToastContainer`);
-
-const e5 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#Zoom`);
-
-const e6 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#collapseToast`);
-
-const e7 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#cssTransition`);
-
-const e8 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#toast`);
-
-const e9 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#useToast`);
-
-const e10 = (0,next_dist_build_webpack_loaders_next_flight_loader_module_proxy__WEBPACK_IMPORTED_MODULE_0__.createProxy)(String.raw`/home/bsilva/Code/arvoredo_arraiolos/arvoredo-arraiolos-backoffice/node_modules/react-toastify/dist/react-toastify.esm.mjs#useToastContainer`);
-
-
 /***/ })
 
 };
