@@ -21,6 +21,12 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(routes)/arvores/page.js"
+    ],
+    "/(routes)/nova-arvore/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/(routes)/nova-arvore/page.css",
+      "static/chunks/app/(routes)/nova-arvore/page.js"
     ]
   }
 }
