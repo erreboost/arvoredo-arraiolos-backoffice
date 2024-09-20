@@ -1,8 +1,8 @@
 export const OPTIONS_LOCALIZACAO = [
-  "Via",
+  "Jardim Público",
+  "Outro",
   "Passeio",
-  "Jardim",
-  "Infraestruturas",
+  "Separador Central Viário",
 ];
 export const OPTIONS_ESTADO_FIT = [
   "Árvore viva, ausência de sintomas ou danos.",
