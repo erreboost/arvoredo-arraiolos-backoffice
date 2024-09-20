@@ -267,14 +267,14 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               name="Localizacao"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Localizacao</FormLabel>
+                  <FormLabel>Localização</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecione a localizacao" />
+                        <SelectValue placeholder="Selecione a localização" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
