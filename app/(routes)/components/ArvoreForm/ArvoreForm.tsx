@@ -72,8 +72,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   const wgs84 = "EPSG:4326";
   const etrs89_tm06 = "EPSG:3763";
   proj4.defs("EPSG:3763", "+proj=utm +zone=29 +datum=ETRS89 +units=m +no_defs");
-  // const latitude = 38.71667
-  // const longitude = -9.13333
 
   const [x, y] = proj4(wgs84, etrs89_tm06, [
     Number(latLong.longitude),
@@ -91,10 +89,15 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
     }
   }, [latLong, setCoordinates]);
 
-  // console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`)
-  // console.log(`ETRS89 / Portugal TM06 Coordinates: X = ${x}, Y = ${y}`);
-
   const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    //@ts-ignore
+    defaultValues: {
+      ...arvore,
+    },
+  });
+
+  const { watch } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     //@ts-ignore
     defaultValues: {
@@ -157,8 +160,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
     );
   }, []);
 
-  const [dapField, setDapField] = useState(form.watch("DAP_v2"));
-
   let watchDap = form.watch("DAP_v2");
 
   return (
@@ -175,11 +176,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
           <div>
             {type === "create" ? (
               <div className="w-full">
-                {/* <ESRIMAP
-                  apiKey={
-                    'AAPK64cf373759a54865a9b553b5c82a36e12DR_FtikWVtRu-ClaIFkgrexK8Wc8HYxf2E5N-2slqZGEERxgga6uAqiUUTtR1bt=AAPK64cf373759a54865a9b553b5c82a36e12DR_FtikWVtRu-ClaIFkgrexK8Wc8HYxf2E5N-2slqZGEERxgga6uAqiUUTtR1bt'
-                  }
-                /> */}
                 <MapId setLatLong={setLatLong} />
                 <div className="flex w-[40%] gap-[20px]">
                   <span className="font-semibold">
@@ -952,6 +948,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="Forma_caldeira"
@@ -1184,11 +1181,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 <FormItem>
                   <FormLabel>Fotos</FormLabel>
                   <FormControl>
-                    {/* <Input
-                      placeholder="Introduza URLs separadas por vírgula"
-                      type="text"
-                      {...field}
-                    /> */}
                     <DragAndDrop />
                   </FormControl>
                   <FormMessage />
@@ -1204,9 +1196,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <FormLabel>Data de Criação: </FormLabel>
                   <FormControl>
                     <span>
-                      {field.value
-                        ? formatDate(field.value)
-                        : "Data não disponível"}
+                      {field.value ? formatDate(field.value) : currentDate}
                     </span>
                   </FormControl>
                   <FormMessage />
