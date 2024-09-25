@@ -82,8 +82,8 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   useEffect(() => {
     if (type === "create") {
       // //console.log('MAP X Y', latLong)
-      form.setValue("POINT_X_G", String(latLong.latitude));
-      form.setValue("POINT_Y_G", String(latLong.longitude));
+      form.setValue("POINT_X_G", String(latLong.longitude));
+      form.setValue("POINT_Y_G", String(latLong.latitude));
     }
   }, [latLong]);
 
