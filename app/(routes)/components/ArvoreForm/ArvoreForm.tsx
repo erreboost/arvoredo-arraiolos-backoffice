@@ -69,26 +69,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
 
   const { setLatLong, latLong, setCoordinates, coordinates } = useAuths();
 
-  const wgs84 = "EPSG:4326";
-  const etrs89_tm06 = "EPSG:3763";
-  proj4.defs("EPSG:3763", "+proj=utm +zone=29 +datum=ETRS89 +units=m +no_defs");
-
-  const [x, y] = proj4(wgs84, etrs89_tm06, [
-    Number(latLong.longitude),
-    Number(latLong.latitude),
-  ]);
-
-  useEffect(() => {
-    if (latLong.latitude && latLong.longitude) {
-      const [x, y] = proj4(wgs84, etrs89_tm06, [
-        Number(latLong.longitude),
-        Number(latLong.latitude),
-      ]);
-
-      setCoordinates({ x, y });
-    }
-  }, [latLong, setCoordinates]);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     //@ts-ignore
@@ -97,13 +77,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
     },
   });
 
-  const { watch } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    //@ts-ignore
-    defaultValues: {
-      ...arvore,
-    },
-  });
+  const { watch } = form;
 
   useEffect(() => {
     if (type === "create") {
@@ -114,13 +88,23 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   }, [latLong]);
 
   const onSubmitCreate = async (values: z.infer<typeof formSchema>) => {
-    console.log("Create", coordinates.x, coordinates.y);
-    createTree(values, coordinates.x, coordinates.y);
+    const formattedDate = formatDateToISO(new Date());
+    const updatedValues = {
+      ...values,
+      Data: formattedDate,
+    };
+    // console.log("Create", coordinates.x, coordinates.y, updatedValues);
+    createTree(updatedValues, coordinates.x, coordinates.y);
   };
 
   const onSubmitEdit = async (values: z.infer<typeof formSchema>) => {
-    updateTree(values, String(values._id));
-    // //console.log('Edit', values);
+    const formattedDate = formatDateToISO(new Date());
+    const updatedValues = {
+      ...values,
+      updatedAt: formattedDate,
+    };
+    updateTree(updatedValues, String(updatedValues._id));
+    // console.log("Edit", updatedValues);
   };
 
   const handleImageClick = (url: string) => {
@@ -132,6 +116,16 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
     if (e.target.files && e.target.files[0]) {
       setIsModalOpen(false);
     }
+  };
+
+  const formatDateToISO = (date: Date): string => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
   };
 
   const formatDate = (dateString: string) => {
@@ -148,19 +142,11 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
 
   useEffect(() => {
     const now = new Date();
-    setCurrentDate(
-      now.toLocaleString("pt-PT", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }),
-    );
+    const formattedDate = formatDateToISO(now);
+    setCurrentDate(formattedDate);
   }, []);
 
-  let watchDap = form.watch("DAP_v2");
+  let watchDap = watch("DAP_v2");
 
   return (
     <div>
@@ -191,43 +177,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
             ) : null}
           </div>
           <div className="grid grid-cols-2 gap-3">
-            {/* <FormField
-              control={form.control}
-              name="Codigo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Código</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Gerado Automaticamente"
-                      type="text"
-                      {...field}
-                      disabled
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-            {/* <FormField
-              control={form.control}
-              name="_id"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>ID</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Introduza..."
-                      type="text"
-                      {...field}
-                      disabled
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
             <FormField
               control={form.control}
               name="Data"
@@ -236,27 +185,13 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   <div className="ml-4 mt-10">
                     <FormLabel>Data: </FormLabel>
                     <FormControl>
-                      <span>{currentDate}</span>
+                      <span>{formatDate(currentDate)}</span>
                     </FormControl>
                     <FormMessage />
                   </div>
                 </FormItem>
               )}
             />
-            {/* 
-            <FormField
-              control={form.control}
-              name="Dicofre"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Dicofre</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
 
             <FormField
               control={form.control}
@@ -303,13 +238,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                   </Select>
                   <FormMessage />
                 </FormItem>
-                // <FormItem>
-                //   <FormLabel>Localização</FormLabel>
-                //   <FormControl>
-                //     <Input placeholder="Introduza..." type="text" {...field} />
-                //   </FormControl>
-                //   <FormMessage />
-                // </FormItem>
               )}
             />
 
@@ -494,20 +422,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 </FormItem>
               )}
             />
-
-            {/* <FormField
-              control={form.control}
-              name="GlobalID"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Global ID</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
 
             <FormField
               control={form.control}
@@ -1058,80 +972,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
               )}
             />
 
-            {/* <FormField
-              control={form.control}
-              name="Especie_Val"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Espécie Val</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Introduza..."
-                      type="number"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
-            {/* <FormField
-              control={form.control}
-              name="Outro_Nome_Comum"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Outro Nome Comum</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
-            {/* <FormField
-              control={form.control}
-              name="Outra_Especie"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Outra Espécie</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
-            {/* <FormField
-              control={form.control}
-              name="Outra_Tip_Int"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Outra Tip. Int.</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
-            {/* <FormField
-              control={form.control}
-              name="grupos"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Grupos</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Introduza..." type="text" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            /> */}
-
             <FormField
               control={form.control}
               name="POINT_X_G"
@@ -1190,13 +1030,15 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
 
             <FormField
               control={form.control}
-              name="createdAt"
+              name="Data"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Data de Criação: </FormLabel>
                   <FormControl>
                     <span>
-                      {field.value ? formatDate(field.value) : currentDate}
+                      {field.value
+                        ? formatDateToISO(new Date(field.value))
+                        : currentDate}
                     </span>
                   </FormControl>
                   <FormMessage />
