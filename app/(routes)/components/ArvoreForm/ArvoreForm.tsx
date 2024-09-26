@@ -1,5 +1,5 @@
+//@ts-nocheck
 "use client";
-import proj4 from "proj4";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -66,6 +66,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState("");
+  const [files, setFiles] = useState<File[] | string[]>([""]);
 
   const { setLatLong, latLong, setCoordinates, coordinates } = useAuths();
 
@@ -84,8 +85,11 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
       // //console.log('MAP X Y', latLong)
       form.setValue("POINT_X_G", String(latLong.longitude));
       form.setValue("POINT_Y_G", String(latLong.latitude));
+      form.setValue("Fotos", files);
     }
-  }, [latLong]);
+
+    console.log("Files", files);
+  }, [latLong, files]);
 
   const onSubmitCreate = async (values: z.infer<typeof formSchema>) => {
     const formattedDate = formatDateToISO(new Date());
@@ -1021,7 +1025,7 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
                 <FormItem>
                   <FormLabel>Fotos</FormLabel>
                   <FormControl>
-                    <DragAndDrop />
+                    <DragAndDrop files={files} setFiles={setFiles} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

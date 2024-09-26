@@ -1,21 +1,51 @@
+//@ts-nocheck
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, Key, useEffect } from "react";
 
-export default function DragAndDrop() {
-  const [files, setFiles] = useState<string[]>([]);
+export default function DragAndDrop({ files, setFiles }: any) {
   const [fileEnter, setFileEnter] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [filesToShow, setFilesToShow] = useState<File[] | string[]>([]);
 
-  const handleFiles = (newFiles: FileList | File[]) => {
+  useEffect(() => console.log("FIlestoshow", filesToShow), [filesToShow]);
+
+  const handleFiles = async (newFiles: FileList | File[]) => {
     const existingFileCount = files.length;
     const remainingSlots = 2 - existingFileCount;
 
     if (remainingSlots > 0) {
-      const newFileUrls = [...newFiles]
-        .slice(0, remainingSlots)
-        .map((file) => URL.createObjectURL(file));
+      const newFileList = [...newFiles].slice(0, remainingSlots);
+      setFilesToShow((prevFiles: any) => [...prevFiles, ...newFileList]);
 
-      setFiles((prevFiles) => [...prevFiles, ...newFileUrls]);
+      await uploadFiles(newFileList);
+    }
+  };
+
+  const uploadFiles = async (filesToUpload: File[]) => {
+    const formData = new FormData();
+
+    filesToUpload.forEach((file) => {
+      formData.append("file", file);
+    });
+
+    try {
+      const response = await fetch(
+        `${BASE_URL}/files/upload?destinationFolder=trees`,
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+
+      const result = await response.json();
+      console.log("Upload successful:", result);
+      setFiles((prevFiles: any) => [...prevFiles, ...result?.filePaths]);
+    } catch (error) {
+      console.error("Error uploading files:", error);
     }
   };
 
@@ -27,10 +57,6 @@ export default function DragAndDrop() {
           setFileEnter(true);
         }}
         onDragLeave={() => setFileEnter(false)}
-        onDragEnd={(e) => {
-          e.preventDefault();
-          setFileEnter(false);
-        }}
         onDrop={(e) => {
           e.preventDefault();
           setFileEnter(false);
@@ -67,27 +93,29 @@ export default function DragAndDrop() {
         />
       </div>
 
-      {files.length > 0 && (
+      {filesToShow.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-4">
-          {files.map((file, index) => (
-            <div key={index} className="relative max-w-xs">
-              <object
-                className="h-full w-full max-w-xs rounded-md"
-                data={file}
-                type="image/png"
-              />
-              <button
-                onClick={() =>
-                  setFiles((prevFiles) =>
-                    prevFiles.filter((_, i) => i !== index),
-                  )
-                }
-                className="absolute top-0 right-0 rounded-full bg-red-600 p-2 py-1 text-white"
-              >
-                x
-              </button>
-            </div>
-          ))}
+          {filesToShow.map(
+            (file: Blob | MediaSource, index: Key | null | undefined) => (
+              <div key={index} className="relative max-w-xs">
+                <object
+                  className="h-full w-full max-w-xs rounded-md"
+                  data={URL.createObjectURL(file)}
+                  type="image/png"
+                />
+                <button
+                  onClick={() =>
+                    setFilesToShow((prevFiles: any[]) =>
+                      prevFiles.filter((_: any, i: any) => i !== index),
+                    )
+                  }
+                  className="absolute top-0 right-0 rounded-full bg-red-600 p-2 py-1 text-white"
+                >
+                  x
+                </button>
+              </div>
+            ),
+          )}
         </div>
       )}
 
@@ -101,7 +129,7 @@ export default function DragAndDrop() {
           </button>
         )}
         <button
-          onClick={() => setFiles([])}
+          onClick={() => setFilesToShow([])}
           className="rounded bg-red-600 px-4 py-2 uppercase tracking-widest text-white outline-none"
         >
           Reset
