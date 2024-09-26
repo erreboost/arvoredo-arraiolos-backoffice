@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import { Button } from '@/components/ui/button'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,47 +12,44 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { FormCreateCustomerProps } from './FormCreateArvore.types'
-import { useState } from 'react'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { FormCreateCustomerProps } from "./FormCreateArvore.types";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { UploadButton } from '@uploadthing/react'
-import { log } from 'console'
-import { toast } from '@/components/ui/use-toast'
+} from "@/components/ui/select";
 
 const formSchema = z.object({
   nome: z.string(),
   especie: z.string().min(2),
   estado_fit: z.string().min(2),
   foto: z.string(),
-})
+});
 
 export function FormCreateArvore(props: FormCreateCustomerProps) {
-  const { setOpenModalCreate } = props
-  const [photoUpload, setPhotoUpload] = useState(false)
+  const { setOpenModalCreate } = props;
+  const [photoUpload, setPhotoUpload] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nome: '',
-      especie: '',
-      estado_fit: '',
-      foto: '',
+      nome: "",
+      especie: "",
+      estado_fit: "",
+      foto: "",
     },
-  })
+  });
 
-  const { isValid } = form.formState
+  const { isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     //console.log(values);
-  }
+  };
   return (
     <div>
       <Form {...form}>
@@ -162,5 +159,5 @@ export function FormCreateArvore(props: FormCreateCustomerProps) {
         </form>
       </Form>
     </div>
-  )
+  );
 }

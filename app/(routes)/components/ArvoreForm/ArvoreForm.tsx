@@ -81,7 +81,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
 
   useEffect(() => {
     if (type === "create") {
-      // //console.log('MAP X Y', latLong)
       form.setValue("POINT_X_G", String(latLong.longitude));
       form.setValue("POINT_Y_G", String(latLong.latitude));
     }
@@ -93,7 +92,6 @@ export function ArvoreForm({ arvore, type }: ArvoreFormTypes) {
       ...values,
       Data: formattedDate,
     };
-    // console.log("Create", coordinates.x, coordinates.y, updatedValues);
     createTree(updatedValues, coordinates.x, coordinates.y);
   };
 

@@ -1,6 +1,7 @@
 import toast from "react-hot-toast";
 
 const BASE_URL = process.env.BASE_URL;
+// const BASE_URL='http://192.168.50.102:5258'
 
 export const getEditorsUsers = async (setEditors?: any) => {
   const token = localStorage.getItem("token");
@@ -90,6 +91,7 @@ export const createTree = async (tree: any, X: any, Y: any) => {
       POINT_X_G: tree.POINT_X_G,
       POINT_Y_G: tree.POINT_Y_G,
       POINT_Z: tree.POINT_Z,
+      Fotos: tree.Fotos,
     }),
   });
 
