@@ -28,7 +28,7 @@ import {
 import { Tree } from "./tree";
 import { useAuths } from "@/app/context/AuthContext";
 
-const PhotoDialog = ({ photos }: { photos: string[] }) => {
+export const PhotoDialog = ({ photos }: { photos: string[] }) => {
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
 
   return (
