@@ -158,8 +158,13 @@ export function TreeTable({
       header: () => <div className="flex justify-center">Fotos</div>,
       cell: ({ row }) => {
         const photo = row.getValue("imgUrl");
-        if (photo !== "" || photo !== undefined || photo !== null) {
+        const photoPath = photo?.split("/")[5];
+        console.log("photoPath", photoPath);
+
+        if (photoPath) {
           return <PhotoDialogIndividual photo={photo} />;
+        } else {
+          return <p>Sem fotos</p>;
         }
       },
     },
@@ -176,6 +181,21 @@ export function TreeTable({
       ),
       cell: ({ row }) => (
         <div className="lowercase">{row.getValue("email")}</div>
+      ),
+    },
+    {
+      accessorKey: "phone",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Telefone
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("phone")}</div>
       ),
     },
     {
