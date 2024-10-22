@@ -30,7 +30,7 @@ export default function DragAndDrop({ files, setFiles }: any) {
 
     try {
       const response = await fetch(
-        `${BASE_URL}/files/upload?destinationFolder=trees`,
+        `${process.env.BASE_URL,}/files/upload?destinationFolder=trees`,
         {
           method: "POST",
           body: formData,
