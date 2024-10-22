@@ -2,15 +2,12 @@
 import { SidebarItem } from "../SidebarItem";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  dataGeneralSidebar,
-  dataSupportSidebar,
-  dataToolsSidebar,
-} from "./SidebarRoutes.data";
+import { dataGeneralSidebar, dataSupportSidebar } from "./SidebarRoutes.data";
 
 export function SidebarRoutes() {
   const handleButtonClick = () => {
-    window.location.href = "https://arvoredo-arraiolos-dashboard.vercel.app/";
+    window.location.href =
+      "https://arvoredo-arraiolos-dashboard-eight.vercel.app/";
   };
 
   return (

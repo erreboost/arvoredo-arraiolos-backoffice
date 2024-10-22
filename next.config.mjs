@@ -13,6 +13,12 @@ const nextConfig = {
         port: "3011",
         pathname: "/uploads/trees/**",
       },
+      {
+        protocol: "https",
+        hostname: "lrb-app.grupoerre.pt",
+        port: "3011",
+        pathname: "/uploads/misc/**",
+      },
     ],
   },
   async headers() {

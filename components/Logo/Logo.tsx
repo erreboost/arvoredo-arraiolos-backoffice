@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-
 export function Logo() {
   return (
     <div className="flex h-20 min-h-20 items-center gap-2 border-b px-6">
