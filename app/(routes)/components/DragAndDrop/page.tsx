@@ -93,7 +93,7 @@ export default function DragAndDrop({ files, setFiles }: any) {
         />
       </div>
 
-      {filesToShow.length > 0 && (
+      {filesToShow && filesToShow?.length > 0 && (
         <div className="mt-4 flex flex-wrap gap-4">
           {filesToShow.map(
             (file: Blob | MediaSource, index: Key | null | undefined) => (
