@@ -120,7 +120,7 @@ export default function DragAndDrop({ files, setFiles }: any) {
       )}
 
       <div className="mt-4 flex space-x-2">
-        {files.length < 2 && (
+        {files && files.length < 2 && (
           <button
             onClick={() => fileInputRef.current?.click()}
             className="rounded bg-blue-600 px-4 py-2 uppercase tracking-widest text-white outline-none"
