@@ -1,13 +1,5 @@
-//@ts-nocheck
-
 "use client";
 import * as React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -20,12 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  ChevronDown,
-  ImageIcon,
-  MoreHorizontal,
-} from "lucide-react";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -46,9 +33,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import Link from "next/link";
 import { editOccurrence } from "@/app/api/ocurrences";
-import { DialogHeader } from "@/components/ui/dialog";
-import Image from "next/image";
 
 export type Occurrence = {
   _id: string;
@@ -61,41 +47,6 @@ export type Occurrence = {
   treeId: string;
   createdAt: Date | string;
   updatedAt: Date | string;
-};
-
-export const PhotoDialogIndividual = ({ photo }: { photo: string }) => {
-  const [selectedPhoto, setSelectedPhoto] = React.useState<string | null>(null);
-
-  return (
-    <div className="flex flex-wrap gap-2">
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setSelectedPhoto(`${photo}`)}
-          >
-            <ImageIcon className="mr-1 h-4 w-4" />
-            Foto
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Foto </DialogTitle>
-          </DialogHeader>
-          {selectedPhoto && (
-            <Image
-              src={selectedPhoto}
-              alt="Tree Photo"
-              width={600}
-              height={400}
-              className="mx-auto"
-            />
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
 };
 
 export const formatStatus = (status: string) => {
@@ -141,32 +92,19 @@ export function TreeTable({
       ),
     },
     {
-      accessorKey: "nif",
+      accessorKey: "treeId",
       header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          NIF
+          Árvore Id
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
-      cell: ({ row }) => <div className="lowercase">{row.getValue("nif")}</div>,
-    },
-    {
-      accessorKey: "imgUrl",
-      header: () => <div className="flex justify-center">Fotos</div>,
-      cell: ({ row }) => {
-        const photo = row.getValue("imgUrl");
-        const photoPath = photo?.split("/")[5];
-        console.log("photoPath", photoPath);
-
-        if (photoPath) {
-          return <PhotoDialogIndividual photo={photo} />;
-        } else {
-          return <p>Sem fotos</p>;
-        }
-      },
+      cell: ({ row }) => (
+        <div className="lowercase">{row.getValue("treeId")}</div>
+      ),
     },
     {
       accessorKey: "email",
@@ -181,21 +119,6 @@ export function TreeTable({
       ),
       cell: ({ row }) => (
         <div className="lowercase">{row.getValue("email")}</div>
-      ),
-    },
-    {
-      accessorKey: "phone",
-      header: ({ column }) => (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Telefone
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      ),
-      cell: ({ row }) => (
-        <div className="lowercase">{row.getValue("phone")}</div>
       ),
     },
     {
@@ -265,7 +188,16 @@ export function TreeTable({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
+              <DropdownMenuItem
+                className="hover:cursor-pointer"
+                onClick={() => navigator.clipboard.writeText(treeId.treeId)}
+              >
+                Copiar ID
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link href={`/arvore/${treeId.treeId}`}>Ver Árvore</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem>
                 <Button
                   variant={"destructive"}

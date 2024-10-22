@@ -6,7 +6,8 @@ import { dataGeneralSidebar, dataSupportSidebar } from "./SidebarRoutes.data";
 
 export function SidebarRoutes() {
   const handleButtonClick = () => {
-    window.location.href = "https://arvoredo-dashboard-braganca.vercel.app/";
+    window.location.href =
+      "https://arvoredo-arraiolos-dashboard-eight.vercel.app/";
   };
 
   return (
@@ -40,7 +41,7 @@ export function SidebarRoutes() {
             className="w-full"
             onClick={handleButtonClick}
           >
-            Plataforma arvoredo - CM Bragança
+            Plataforma arvoredo - CM Arraiolos
           </Button>
         </div>
         <Separator />
