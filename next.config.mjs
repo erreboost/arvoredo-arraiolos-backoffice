@@ -9,12 +9,12 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "lrb-app.grupoerre.pt",
+        hostname: "lrb-app2.grupoerre.pt",
         pathname: "/uploads/trees/**",
       },
       {
         protocol: "https",
-        hostname: "lrb-app.grupoerre.pt",
+        hostname: "lrb-app2.grupoerre.pt",
         pathname: "/uploads/misc/**",
       },
     ],
